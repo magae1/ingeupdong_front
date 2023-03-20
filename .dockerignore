@@ -1,0 +1,6 @@
+.gitignore
+Dockerfile
+README.md
+.env.development
+node_modules
+src/setupProxy.js
