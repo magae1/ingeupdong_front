@@ -1,3 +1,8 @@
+interface Pagination {
+  count: number;
+  next: string | null;
+  previous: string | null;
+}
 export interface IRecording {
   id: number;
   date: string;
@@ -44,10 +49,7 @@ export interface ITrendingWithPrev extends ITrending {
   video: IVideo;
   prev_trend: IPrevTrending | null;
 }
-export interface ITrendingWithPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+export interface ITrendingWithPagination extends Pagination {
   results: ITrendingWithPrev[];
 }
 
@@ -56,4 +58,12 @@ export interface IVideoWithRecords {
   records: string[];
   title: string;
   url: string;
+}
+
+export interface IVideoWithRecordAt extends ISimpleVideo {
+  record_at: string;
+}
+
+export interface IChannelVideoWithPagination extends Pagination {
+  results: IVideoWithRecordAt[];
 }

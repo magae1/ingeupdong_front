@@ -20,7 +20,6 @@ const ModalBackGround = ({ children, open, closeModal }: Props) => {
           timeout: 500,
         },
       }}
-      tabIndex={-1}
     >
       {children}
     </Modal>

@@ -9,9 +9,8 @@ export const ChannelContainer = styled(Container)(({ className, theme }) => ({
   backgroundPositionX: "center",
   backgroundSize: "100% auto",
   display: "flex",
-  paddingTop: "5%",
   flexDirection: "column",
-  justifyContent: "space-between",
+  justifyContent: "end",
   width: "100%",
   aspectRatio: "17.3 / 10",
   [theme.breakpoints.up("md")]: {

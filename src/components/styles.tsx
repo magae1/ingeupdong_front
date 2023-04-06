@@ -18,13 +18,13 @@ import { Search } from "@mui/icons-material";
 export const RankState = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   fontSize: theme.spacing(3),
-}));
+})) as typeof Typography;
 
 export const RankDiff = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   fontSize: theme.spacing(1.5),
   color: grey[600],
-}));
+})) as typeof Typography;
 
 export const BootstrapTooltip = styled(
   ({ className, ...props }: TooltipProps) => (
@@ -74,7 +74,6 @@ export const ModalContainer = styled(Container)`
   width: 100%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0);
-  tab-index: -1;
 `;
 
 export const SpinnerBox = styled(Box)(() => ({
@@ -214,3 +213,10 @@ export const LatestVideoBox = styled(Box)`
     display: none;
   }
 `;
+
+export const RecordsTypo = styled(Typography)(({ theme }) => ({
+  marginRight: theme.spacing(0.5),
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "14px",
+  },
+})) as typeof Typography;
