@@ -16,7 +16,7 @@ const SearchBarModal = ({ open, setOpen }: Props) => {
       <Fade in={open}>
         <ModalContainer sx={{ top: "30%" }}>
           <Card sx={{ borderRadius: "24px" }}>
-            <SearchBar />
+            <SearchBar closeModal={closeModal} />
           </Card>
         </ModalContainer>
       </Fade>

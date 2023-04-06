@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import _ from "underscore";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
+import { orange } from "@mui/material/colors";
 
 import { IChannel } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 import StyledInput from "./StyledInput";
-import { orange } from "@mui/material/colors";
 
-const SearchBar = () => {
+const SearchBar = (props: { closeModal?: () => void }) => {
   const [value, setValue] = useState<IChannel | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<IChannel[]>([]);
@@ -89,7 +89,10 @@ const SearchBar = () => {
       onChange={(event: any, newValue: IChannel | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-        if (newValue) navigate(`/channel/${newValue.id}`);
+        if (newValue) {
+          navigate(`/channel/${newValue.id}`);
+          props.closeModal && props.closeModal();
+        }
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);

@@ -1,13 +1,21 @@
 import React from "react";
-import { Grid, Stack, Typography } from "@mui/material";
+import {
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
-import { TrendVideoWrapper } from "./styles";
+import { CoverBox, TrendVideoWrapper } from "./styles";
 import { IVideoWithRecordAt } from "../utils/interfaces";
 import VideoButtons from "./VideoButtons";
 import dayjs from "dayjs";
 
 const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
   const { id, title, url, record_at } = props.data;
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down("sm"));
   const tag = url.slice(url.length - 11, url.length);
 
   return (
@@ -33,24 +41,10 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
             </Typography>
           </Stack>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={5}
-          lg={4}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundImage: `url(https://img.youtube.com/vi/${tag}/0.jpg)`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPositionX: "center",
-            backgroundPositionY: "center",
-            minHeight: "60px",
-          }}
-        >
-          <VideoButtons video_id={id} url={url} size={"medium"} />
+        <Grid item xs={12} sm={6} md={5} lg={4}>
+          <CoverBox className={tag} style={{ height: small ? "60px" : "100%" }}>
+            <VideoButtons video_id={id} url={url} size={"medium"} />
+          </CoverBox>
         </Grid>
       </Grid>
     </TrendVideoWrapper>
