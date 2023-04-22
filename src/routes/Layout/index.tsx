@@ -21,7 +21,6 @@ import {
   UnstyledNavLink,
 } from "./style";
 import Footer from "../../components/Footer";
-import HideOnScroll from "../../components/HideOnScroll";
 import SearchBar from "../../components/SearchBar";
 import { DefaultSearchIcon } from "../../components/styles";
 import SearchBarModal from "../../components/SearchBarModal";
@@ -34,44 +33,42 @@ const Layout = () => {
 
   return (
     <>
-      <HideOnScroll>
-        <LayoutAppBar color={"primary"}>
-          <Toolbar sx={{ justifyContent: "space-between" }}>
-            <UnstyledNavLink to={"/"}>
-              <TitleGrid>
-                <Typography variant="h5" sx={{ textAlign: "center" }}>
-                  인·급·동
-                </Typography>
-                <TitleBottom>
-                  {"히스토리".split("").map((value) => (
-                    <Typography
-                      sx={{ fontSize: theme.spacing(0.5) }}
-                      key={_.uniqueId("AppSubtitle")}
-                      component={"span"}
-                    >
-                      {value}
-                    </Typography>
-                  ))}
-                </TitleBottom>
-              </TitleGrid>
-            </UnstyledNavLink>
-            <Stack direction={"row-reverse"} spacing={1}>
-              <IconButton onClick={colorMode.toggleMode} color="inherit">
-                {theme.palette.mode === "dark" ? (
-                  <Brightness4 />
-                ) : (
-                  <Brightness7 />
-                )}
-              </IconButton>
-              {isMobileSize ? (
-                <DefaultSearchIcon onClick={() => setOpenSearchBar(true)} />
+      <LayoutAppBar color={"primary"}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <UnstyledNavLink to={"/"}>
+            <TitleGrid>
+              <Typography variant="h5" sx={{ textAlign: "center" }}>
+                인·급·동
+              </Typography>
+              <TitleBottom>
+                {"히스토리".split("").map((value) => (
+                  <Typography
+                    sx={{ fontSize: theme.spacing(0.5) }}
+                    key={_.uniqueId("AppSubtitle")}
+                    component={"span"}
+                  >
+                    {value}
+                  </Typography>
+                ))}
+              </TitleBottom>
+            </TitleGrid>
+          </UnstyledNavLink>
+          <Stack direction={"row-reverse"} spacing={1}>
+            <IconButton onClick={colorMode.toggleMode} color="inherit">
+              {theme.palette.mode === "dark" ? (
+                <Brightness4 />
               ) : (
-                <SearchBar />
+                <Brightness7 />
               )}
-            </Stack>
-          </Toolbar>
-        </LayoutAppBar>
-      </HideOnScroll>
+            </IconButton>
+            {isMobileSize ? (
+              <DefaultSearchIcon onClick={() => setOpenSearchBar(true)} />
+            ) : (
+              <SearchBar />
+            )}
+          </Stack>
+        </Toolbar>
+      </LayoutAppBar>
       <Box width={1} minHeight={"100vh"}>
         <Offset />
         <Outlet />

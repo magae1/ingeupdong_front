@@ -44,7 +44,7 @@ const RecordCalendar = ({ initDate }: Props) => {
   const modalControl = React.useContext(CalendarModalControl);
 
   const { data, isLoading, isValidating } = useSWR<IRecording[]>(
-    `/recording/?month=${curDay.month() + 1}`,
+    `/recording/?month=${curDay.month() + 1}&year=${curDay.year()}`,
     mainFetcher,
     {
       revalidateIfStale: false,

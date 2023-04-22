@@ -10,7 +10,7 @@ import { IChannel } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 import StyledInput from "./StyledInput";
 
-const SearchBar = (props: { closeModal?: () => void }) => {
+const SearchBar = (props: { closeModal?: () => void; autoFocus?: boolean }) => {
   const [value, setValue] = useState<IChannel | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<IChannel[]>([]);
@@ -25,7 +25,7 @@ const SearchBar = (props: { closeModal?: () => void }) => {
           param: string,
           callback: (results: IChannel[] | undefined) => void
         ) => {
-          mainFetcher(`/channel/?search=${param}`)
+          mainFetcher(`/search/?search=${param}`)
             .then((res) => {
               callback(res);
             })
@@ -101,6 +101,7 @@ const SearchBar = (props: { closeModal?: () => void }) => {
         <StyledInput
           inputProps={params.inputProps}
           InputProps={params.InputProps.ref}
+          autoFocus={props.autoFocus}
         />
       )}
       renderOption={(props, option, { inputValue }) => {

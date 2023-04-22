@@ -1,9 +1,20 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
-import { Card, Fade } from "@mui/material";
+import { Box, Fade } from "@mui/material";
 
 import ModalBackGround from "./ModalBackGround";
 import SearchBar from "./SearchBar";
-import { ModalContainer } from "./styles";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "28px",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  bgcolor: "background.default",
+  boxShadow: 24,
+  py: "7px",
+  px: 2,
+};
 
 interface Props {
   open: boolean;
@@ -14,11 +25,9 @@ const SearchBarModal = ({ open, setOpen }: Props) => {
   return (
     <ModalBackGround open={open} closeModal={closeModal}>
       <Fade in={open}>
-        <ModalContainer sx={{ top: "30%" }}>
-          <Card sx={{ borderRadius: "24px" }}>
-            <SearchBar closeModal={closeModal} />
-          </Card>
-        </ModalContainer>
+        <Box sx={style}>
+          <SearchBar closeModal={closeModal} autoFocus={true} />
+        </Box>
       </Fade>
     </ModalBackGround>
   );

@@ -16,7 +16,6 @@ import {
   UpdateSharp,
 } from "@mui/icons-material";
 import dayjs from "dayjs";
-import { useSpring } from "@react-spring/web";
 
 import { IPrevAndNextRecording } from "../../utils/interfaces";
 import { TrendAppBar, DateTypo, H, UpdateTime } from "./style";
@@ -28,14 +27,8 @@ import CalendarModal from "../../components/CalendarModal";
 const Trendings = () => {
   const recordData = useLoaderData() as IPrevAndNextRecording;
   const theme = useTheme();
-  const isLarger = useMediaQuery(theme.breakpoints.up("sm"));
   const { recordId } = useParams();
   const navigate = useNavigate();
-  const trigger = useScrollTrigger();
-  const string = useSpring({
-    y: trigger ? -(isLarger ? 64 : 56) : 0,
-    config: { tension: 180, friction: 23 },
-  });
   const [open, setOpen] = React.useState(false);
 
   const HighlightDateForm = useMemo(() => {
@@ -54,7 +47,7 @@ const Trendings = () => {
   return (
     <Container maxWidth={"md"}>
       <Offset />
-      <TrendAppBar style={string}>
+      <TrendAppBar>
         <Container maxWidth={"md"}>
           <Toolbar>
             <Grid container width={1}>

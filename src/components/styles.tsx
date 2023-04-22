@@ -200,20 +200,6 @@ export const SearchInputBase = styled(InputBase)`
   }
 `;
 
-export const LatestVideoBox = styled(Box)`
-  width: 30%;
-  align-self: end;
-  overflow-x: scroll;
-  white-space: nowrap;
-  color: rgb(255, 255, 255);
-  background: rgba(0, 0, 0, 0.5);
-  -ms-overflow-style: none; // IE and Edge
-  scrollbar-width: none; // Firefox
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
 export const RecordsTypo = styled(Typography)(({ theme }) => ({
   marginRight: theme.spacing(0.5),
   [theme.breakpoints.down("sm")]: {
