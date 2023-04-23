@@ -1,10 +1,12 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useState } from "react";
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
 
 import VideoChart from "./VideoChart";
 import ChannelVideoList from "./ChannelVideoList";
-import { useParams } from "react-router";
 import HelloChannelVideos from "./HelloChannelVideos";
+import useSWRInfinite from "swr/infinite";
+import { IChannelVideoWithPagination } from "../utils/interfaces";
+import { mainFetcher } from "../utils/fetchers";
 
 interface IVideoInfo {
   videoId: number;
@@ -26,6 +28,18 @@ const VideosWithChart = (props: {
   const { channelInfo } = props;
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
+  const infiniteResponse = useSWRInfinite<IChannelVideoWithPagination>(
+    (index, previousPageData) => {
+      if (previousPageData && !previousPageData.next) return null;
+      if (!index) return `/channel/${channelInfo.id}/videos/`;
+      return `/channel/${channelInfo.id}/videos/?page=${index}`;
+    },
+    mainFetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+    }
+  );
   const [curVideoId, setVideoId] = useState<IVideoInfo | null>(null);
 
   return (
@@ -43,10 +57,11 @@ const VideosWithChart = (props: {
             <HelloChannelVideos
               channelName={channelInfo.name}
               channelHandle={channelInfo.handle}
+              infiniteResponse={infiniteResponse}
             />
           )}
         </Box>
-        <ChannelVideoList channel_id={channelInfo.id} />
+        <ChannelVideoList infiniteResponse={infiniteResponse} />
       </Stack>
     </CurVideoForChartContext.Provider>
   );

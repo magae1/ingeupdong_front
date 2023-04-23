@@ -1,16 +1,21 @@
 import React from "react";
 import { Stack, Link, Typography, useTheme } from "@mui/material";
 import { LaunchOutlined } from "@mui/icons-material";
+import { SWRInfiniteResponse } from "swr/infinite";
 
 import { ChannelInfos, RankDiff } from "./styles";
 import CountingUpSpan from "./CountingUpSpan";
+import { IChannelVideoWithPagination } from "../utils/interfaces";
 
 const HelloChannelVideos = (props: {
   channelName: string;
   channelHandle: string;
+  infiniteResponse: SWRInfiniteResponse<IChannelVideoWithPagination, any>;
 }) => {
-  const { channelName, channelHandle } = props;
+  const { channelName, channelHandle, infiniteResponse } = props;
+  const { data, isLoading, error } = infiniteResponse;
   const theme = useTheme();
+  console.log(data);
   return (
     <Stack direction={"column"} py={5} px={2}>
       <ChannelInfos>
@@ -35,11 +40,13 @@ const HelloChannelVideos = (props: {
       </ChannelInfos>
       <Typography align={"right"}>
         {"총 "}
-        <CountingUpSpan
-          time={1500}
-          count={2}
-          style={{ fontSize: theme.spacing(4) }}
-        />
+        {data && data[0] && !isLoading && !error && (
+          <CountingUpSpan
+            time={1000}
+            count={data[0].count}
+            style={{ fontSize: theme.spacing(4) }}
+          />
+        )}
         개의 인급동이 있어요.
       </Typography>
     </Stack>
