@@ -67,3 +67,9 @@ export interface IVideoWithRecordAt extends ISimpleVideo {
 export interface IChannelVideoWithPagination extends Pagination {
   results: IVideoWithRecordAt[];
 }
+
+export interface TrendForGraph {
+  day: string;
+  rank: number;
+  views: number;
+}

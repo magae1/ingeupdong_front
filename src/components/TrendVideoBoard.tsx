@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Grid, Stack } from "@mui/material";
 
 import { ITrendingWithPrev } from "../utils/interfaces";
@@ -39,4 +39,4 @@ const TrendVideoBoard = ({ data }: Props) => {
   );
 };
 
-export default TrendVideoBoard;
+export default memo(TrendVideoBoard);

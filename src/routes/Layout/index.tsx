@@ -69,7 +69,7 @@ const Layout = () => {
           </Stack>
         </Toolbar>
       </LayoutAppBar>
-      <Box width={1} minHeight={"100vh"}>
+      <Box width={1}>
         <Offset />
         <Outlet />
       </Box>

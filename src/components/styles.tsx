@@ -206,3 +206,32 @@ export const RecordsTypo = styled(Typography)(({ theme }) => ({
     fontSize: "14px",
   },
 })) as typeof Typography;
+
+export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
+  display: "flex",
+  justifyContent: "center",
+  backgroundImage: `url(https://img.youtube.com/vi/${className}/0.jpg)`,
+  backgroundRepeat: "no-repeat",
+  backgroundPositionX: "center",
+  backgroundPositionY: "center",
+  backgroundSize: "cover",
+  borderBottomRightRadius: theme.spacing(0.5),
+  height: "70px",
+  borderBottomLeftRadius: theme.spacing(0.5),
+}));
+
+export const CharWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: "400px",
+  borderRadius: "15px",
+  border: `1px solid ${theme.palette.mode === "light" ? grey[300] : grey[500]}`,
+  padding: "3px 1px 35px",
+}));
+
+export const ChannelInfos = styled(Box)`
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  align-items: end;
+  padding-bottom: 25px;
+`;

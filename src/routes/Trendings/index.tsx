@@ -1,15 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router";
 import _ from "underscore";
-import {
-  Button,
-  Container,
-  Grid,
-  Toolbar,
-  useMediaQuery,
-  useScrollTrigger,
-  useTheme,
-} from "@mui/material";
+import { Button, Container, Grid, Toolbar } from "@mui/material";
 import {
   ArrowBackIosNew,
   ArrowForwardIos,
@@ -26,7 +18,6 @@ import CalendarModal from "../../components/CalendarModal";
 
 const Trendings = () => {
   const recordData = useLoaderData() as IPrevAndNextRecording;
-  const theme = useTheme();
   const { recordId } = useParams();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
@@ -45,7 +36,7 @@ const Trendings = () => {
   }, [recordId]);
 
   return (
-    <Container maxWidth={"md"}>
+    <Container maxWidth={"md"} sx={{ minHeight: "calc(100vh - 50px)" }}>
       <Offset />
       <TrendAppBar>
         <Container maxWidth={"md"}>

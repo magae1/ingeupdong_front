@@ -1,5 +1,6 @@
 import React, { Ref } from "react";
 import { InputBaseComponentProps } from "@mui/material";
+
 import { DefaultSearchIcon, InputFormPaper, SearchInputBase } from "./styles";
 
 const StyledInput = (props: {
