@@ -1,10 +1,10 @@
 import React, { createContext, useState } from "react";
-import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import useSWRInfinite from "swr/infinite";
 
 import VideoChart from "./VideoChart";
 import ChannelVideoList from "./ChannelVideoList";
 import HelloChannelVideos from "./HelloChannelVideos";
-import useSWRInfinite from "swr/infinite";
 import { IChannelVideoWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 
@@ -26,8 +26,6 @@ const VideosWithChart = (props: {
   channelInfo: { id: number; name: string; handle: string };
 }) => {
   const { channelInfo } = props;
-  const theme = useTheme();
-  const isXS = useMediaQuery(theme.breakpoints.down("sm"));
   const infiniteResponse = useSWRInfinite<IChannelVideoWithPagination>(
     (index, previousPageData) => {
       if (previousPageData && !previousPageData.next) return null;
@@ -49,8 +47,8 @@ const VideosWithChart = (props: {
         setCurrentVideo: setVideoId,
       }}
     >
-      <Stack direction={isXS ? "column" : "row"} spacing={1}>
-        <Box minHeight={"250px"} minWidth={"300px"} width={"100%"}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={7}>
           {curVideoId ? (
             <VideoChart />
           ) : (
@@ -60,9 +58,11 @@ const VideosWithChart = (props: {
               infiniteResponse={infiniteResponse}
             />
           )}
-        </Box>
-        <ChannelVideoList infiniteResponse={infiniteResponse} />
-      </Stack>
+        </Grid>
+        <Grid item xs={12} sm={5}>
+          <ChannelVideoList infiniteResponse={infiniteResponse} />
+        </Grid>
+      </Grid>
     </CurVideoForChartContext.Provider>
   );
 };

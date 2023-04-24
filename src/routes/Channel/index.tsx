@@ -34,7 +34,7 @@ const Channel = () => {
       </ChannelContainer>
       <Box sx={{ width: "100%" }} my={1}>
         <Container maxWidth={"md"}>
-          <Stack spacing={3}>
+          <Stack spacing={3} mb={2}>
             <VideosWithChart
               channelInfo={{ id: id, name: name, handle: handle }}
             />

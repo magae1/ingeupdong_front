@@ -221,11 +221,11 @@ export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
 }));
 
 export const CharWrapper = styled(Box)(({ theme }) => ({
-  width: "100%",
-  height: "400px",
+  width: "inherit",
+  height: "100%",
   borderRadius: "15px",
   border: `1px solid ${theme.palette.mode === "light" ? grey[300] : grey[500]}`,
-  padding: "3px 1px 35px",
+  padding: "3px 1px 5px",
 }));
 
 export const ChannelInfos = styled(Box)`

@@ -12,6 +12,7 @@ import {
 } from "../utils/interfaces";
 import ChannelVideoBoard from "./ChannelVideoBoard";
 import { ErrorTypo, InfoLabel } from "./styles";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const Row = memo(
   (props: { data: IVideoWithRecordAt[]; index: number; style?: {} }) => {
@@ -50,37 +51,36 @@ const ChannelVideoList = (props: {
   if (error) return <ErrorTypo>알 수 없는 오류가 발생했어요.</ErrorTypo>;
 
   return (
-    <Box
-      sx={{
-        maxHeight: "500px",
-        width: "100%",
-        height: "50vh",
-        maxWidth: "450px",
-      }}
-    >
+    <Box sx={{ width: "100%", height: "100%" }}>
       <InfoLabel sx={{ marginBottom: "0px", py: "3px" }}>
         <Whatshot sx={{ mr: 0.5, verticalAlign: "middle" }} />이 채널의 인급동들
       </InfoLabel>
-      <InfiniteLoader
-        isItemLoaded={(index) => true}
-        loadMoreItems={(startIndex, stopIndex) => {
-          setSize((_size) => _size + 1);
-        }}
-        itemCount={videos.length}
-      >
-        {({ onItemsRendered, ref }) => (
-          <List
-            itemSize={150}
-            height={400}
-            itemCount={videos.length}
-            width={"100%"}
-            itemData={videos}
-            onItemsRendered={onItemsRendered}
-          >
-            {Row}
-          </List>
-        )}
-      </InfiniteLoader>
+      <div style={{ height: "calc(100% - 31px)", minHeight: "300px" }}>
+        <InfiniteLoader
+          isItemLoaded={(index) => true}
+          loadMoreItems={(startIndex, stopIndex) => {
+            setSize((_size) => _size + 1);
+          }}
+          itemCount={videos.length}
+        >
+          {({ onItemsRendered, ref }) => (
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  itemSize={150}
+                  height={height ?? 0}
+                  itemCount={videos.length}
+                  width={width ?? 0}
+                  itemData={videos}
+                  onItemsRendered={onItemsRendered}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          )}
+        </InfiniteLoader>
+      </div>
     </Box>
   );
 };
