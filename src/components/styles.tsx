@@ -235,3 +235,8 @@ export const ChannelInfos = styled(Box)`
   align-items: end;
   padding-bottom: 25px;
 `;
+
+export const AutoSizerWrapper = styled("div")(({ theme }) => ({
+  height: "calc(100% - 31px)",
+  minHeight: "300px",
+}));

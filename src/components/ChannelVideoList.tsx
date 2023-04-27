@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from "react";
-import { SWRInfiniteResponse } from "swr/infinite";
+import useSWRInfinite from "swr/infinite";
 import _ from "underscore";
 import { Box } from "@mui/material";
 import { Whatshot } from "@mui/icons-material";
@@ -13,6 +13,7 @@ import {
 import ChannelVideoBoard from "./ChannelVideoBoard";
 import { ErrorTypo, InfoLabel } from "./styles";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { mainFetcher } from "../utils/fetchers";
 
 const Row = memo(
   (props: { data: IVideoWithRecordAt[]; index: number; style?: {} }) => {
@@ -28,11 +29,21 @@ const Row = memo(
   areEqual
 );
 
-const ChannelVideoList = (props: {
-  infiniteResponse: SWRInfiniteResponse<IChannelVideoWithPagination, any>;
-}) => {
-  const { data, isLoading, isValidating, setSize, size, error } =
-    props.infiniteResponse;
+const ChannelVideoList = (props: { channelId: number }) => {
+  const { channelId } = props;
+  const { data, isLoading, isValidating, error, setSize, size } =
+    useSWRInfinite<IChannelVideoWithPagination>(
+      (index, previousPageData) => {
+        if (previousPageData && !previousPageData.next) return null;
+        if (!index) return `/channel/${channelId}/videos/`;
+        return `/channel/${channelId}/videos/?page=${index}`;
+      },
+      mainFetcher,
+      {
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+      }
+    );
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = !data || data[0].count === 0;

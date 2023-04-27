@@ -40,9 +40,9 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: ":recordId",
+        path: ":recordDate",
         loader: async ({ params }) => {
-          const res = await fetch(`/api/recording/${params.recordId}/`);
+          const res = await fetch(`/api/recording/${params.recordDate}/`);
           if (res.status === 404) throw new Response(res.body, { status: 404 });
           return res.json();
         },

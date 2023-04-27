@@ -34,7 +34,7 @@ const RecordedDay = (
       outsideCurrentMonth={outsideCurrentMonth}
       day={day}
       disabled={!isEnabled}
-      onClick={() => navigate(`/${data[dataIndex].id}`)}
+      onClick={() => navigate(`/${data[dataIndex].date}`)}
     />
   );
 };

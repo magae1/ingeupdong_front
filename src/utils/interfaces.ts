@@ -1,4 +1,8 @@
-interface Pagination {
+export interface ICalendar {
+  day: string;
+  value: number;
+}
+interface IPagination {
   count: number;
   next: string | null;
   previous: string | null;
@@ -49,7 +53,7 @@ export interface ITrendingWithPrev extends ITrending {
   video: IVideo;
   prev_trend: IPrevTrending | null;
 }
-export interface ITrendingWithPagination extends Pagination {
+export interface ITrendingWithPagination extends IPagination {
   results: ITrendingWithPrev[];
 }
 
@@ -64,7 +68,7 @@ export interface IVideoWithRecordAt extends ISimpleVideo {
   record_at: string;
 }
 
-export interface IChannelVideoWithPagination extends Pagination {
+export interface IChannelVideoWithPagination extends IPagination {
   results: IVideoWithRecordAt[];
 }
 
@@ -72,4 +76,11 @@ export interface TrendForGraph {
   day: string;
   rank: number;
   views: number;
+}
+
+export interface ITotalCountWithCalendars {
+  total_count: number;
+  recent_records: ICalendar[];
+  start_date: string;
+  end_date: string;
 }

@@ -6,12 +6,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
 
 import { IVideoWithRecordAt } from "../utils/interfaces";
 import VideoButtons from "./VideoButtons";
 import { ChannelVideoThumbnail } from "./styles";
 import { CurVideoForChartContext } from "./VideosWithChart";
+import { pastAwayJs } from "../utils/dayjs";
 
 const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
   const { setCurrentVideo } = useContext(CurVideoForChartContext);
@@ -26,8 +26,7 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
         <CardContent>
           <Stack>
             <Typography sx={{ fontSize: "12px", color: "grey" }}>
-              #{dayjs(record_at).locale("ko").format("YY' MMM DD[일]")} 인급동
-              진입
+              #{pastAwayJs(record_at)} 인급동 진입
             </Typography>
             <Typography
               component={"span"}

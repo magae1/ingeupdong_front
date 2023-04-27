@@ -18,7 +18,7 @@ import CalendarModal from "../../components/CalendarModal";
 
 const Trendings = () => {
   const recordData = useLoaderData() as IPrevAndNextRecording;
-  const { recordId } = useParams();
+  const { recordDate } = useParams();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
@@ -33,10 +33,10 @@ const Trendings = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [recordId]);
+  }, [recordDate]);
 
   return (
-    <Container maxWidth={"md"} sx={{ minHeight: "calc(100vh - 50px)" }}>
+    <Container maxWidth={"md"} sx={{ minHeight: "95vh" }}>
       <Offset />
       <TrendAppBar>
         <Container maxWidth={"md"}>
@@ -46,7 +46,7 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.prev_record?.id}`);
+                    navigate(`../${recordData.prev_record?.date}`);
                   }}
                   disabled={_.isEmpty(recordData.prev_record)}
                   sx={{ height: "100%" }}
@@ -63,7 +63,7 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.next_record?.id}`);
+                    navigate(`../${recordData.next_record?.date}`);
                   }}
                   disabled={_.isEmpty(recordData.next_record)}
                   sx={{ height: "100%" }}
@@ -82,7 +82,7 @@ const Trendings = () => {
         />
         {timeJs(recordData.time.slice(0, 5))}
       </UpdateTime>
-      <TrendVideoList recordId={recordId as string} />
+      <TrendVideoList recordId={recordData.id.toString()} />
       <CalendarModal
         open={open}
         setOpen={setOpen}

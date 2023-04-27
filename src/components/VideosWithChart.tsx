@@ -1,10 +1,9 @@
-import React, { createContext, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import React, { createContext, useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 import useSWRInfinite from "swr/infinite";
 
 import VideoChart from "./VideoChart";
 import ChannelVideoList from "./ChannelVideoList";
-import HelloChannelVideos from "./HelloChannelVideos";
 import { IChannelVideoWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 
@@ -25,20 +24,15 @@ export const CurVideoForChartContext = createContext<ICurVideoForChartContext>({
 const VideosWithChart = (props: {
   channelInfo: { id: number; name: string; handle: string };
 }) => {
-  const { channelInfo } = props;
-  const infiniteResponse = useSWRInfinite<IChannelVideoWithPagination>(
-    (index, previousPageData) => {
-      if (previousPageData && !previousPageData.next) return null;
-      if (!index) return `/channel/${channelInfo.id}/videos/`;
-      return `/channel/${channelInfo.id}/videos/?page=${index}`;
-    },
-    mainFetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-    }
-  );
+  const { id: channelId } = props.channelInfo;
+
   const [curVideoId, setVideoId] = useState<IVideoInfo | null>(null);
+
+  useEffect(() => {
+    return () => {
+      setVideoId(null);
+    };
+  }, [channelId]);
 
   return (
     <CurVideoForChartContext.Provider
@@ -48,19 +42,11 @@ const VideosWithChart = (props: {
       }}
     >
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={7}>
-          {curVideoId ? (
-            <VideoChart />
-          ) : (
-            <HelloChannelVideos
-              channelName={channelInfo.name}
-              channelHandle={channelInfo.handle}
-              infiniteResponse={infiniteResponse}
-            />
-          )}
-        </Grid>
         <Grid item xs={12} sm={5}>
-          <ChannelVideoList infiniteResponse={infiniteResponse} />
+          {curVideoId && <VideoChart />}
+        </Grid>
+        <Grid item xs={12} sm={7}>
+          <ChannelVideoList channelId={channelId} />
         </Grid>
       </Grid>
     </CurVideoForChartContext.Provider>

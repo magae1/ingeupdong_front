@@ -84,7 +84,7 @@ const VideoChart = () => {
               labels: {
                 formatter: (value) => {
                   if (value === "...") return value;
-                  return dayjs(value).locale("ko").format("M.D(ddd)");
+                  return dayjs(value).locale("ko").format("M.D(dd)");
                 },
                 style: {
                   colors: theme.palette.mode === "light" ? "#000" : "#fff",
@@ -218,10 +218,10 @@ const VideoChart = () => {
             },
           }}
           series={reformattedData.series}
-          height={"100%"}
+          height={"250px"}
         />
       ) : (
-        <SpinnerBox sx={{ height: "200px" }}>
+        <SpinnerBox sx={{ height: "100%" }}>
           <CircularProgress />
         </SpinnerBox>
       )}
