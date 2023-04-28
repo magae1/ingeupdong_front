@@ -21,9 +21,8 @@ const Trendings = () => {
   const { recordDate } = useParams();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-
   const HighlightDateForm = useMemo(() => {
-    const dayObj = dayjs(recordData.date);
+    const dayObj = dayjs(recordData.record_at);
     return (
       <DateTypo>
         <H>{dayObj.month() + 1}</H>월 <H>{dayObj.date()}</H>일
@@ -46,7 +45,7 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.prev_record?.date}`);
+                    navigate(`../${recordData.prev_record?.record_at}`);
                   }}
                   disabled={_.isEmpty(recordData.prev_record)}
                   sx={{ height: "100%" }}
@@ -63,7 +62,7 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.next_record?.date}`);
+                    navigate(`../${recordData.next_record?.record_at}`);
                   }}
                   disabled={_.isEmpty(recordData.next_record)}
                   sx={{ height: "100%" }}
@@ -80,13 +79,13 @@ const Trendings = () => {
           sx={{ mr: 0.5, verticalAlign: "top" }}
           fontSize={"small"}
         />
-        {timeJs(recordData.time.slice(0, 5))}
+        {timeJs(recordData.record_at)}
       </UpdateTime>
       <TrendVideoList recordId={recordData.id.toString()} />
       <CalendarModal
         open={open}
         setOpen={setOpen}
-        initDate={dayjs(recordData.date)}
+        initDate={dayjs(recordData.record_at)}
       />
     </Container>
   );

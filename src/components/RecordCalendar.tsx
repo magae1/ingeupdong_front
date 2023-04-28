@@ -10,6 +10,7 @@ import {
   PickersDayProps,
 } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import _ from "underscore";
 
 import { IRecording } from "../utils/interfaces";
@@ -26,7 +27,10 @@ const RecordedDay = (
   const navigate = useNavigate();
   const { data = [], day, outsideCurrentMonth, ...other } = props;
   const dayForm = day.format("YYYY-MM-DD");
-  const dataIndex = _.findIndex(data, (dt) => dt.date === dayForm);
+  const dataIndex = _.findIndex(
+    data,
+    (dt) => dayjs(dt.record_at).format("YYYY-MM-DD") === dayForm
+  );
   const isEnabled = !props.outsideCurrentMonth && dataIndex >= 0;
   return (
     <PickersDay
@@ -34,7 +38,9 @@ const RecordedDay = (
       outsideCurrentMonth={outsideCurrentMonth}
       day={day}
       disabled={!isEnabled}
-      onClick={() => navigate(`/${data[dataIndex].date}`)}
+      onClick={() =>
+        navigate(`/${dayjs(data[dataIndex].record_at).format("YYYY-MM-DD")}`)
+      }
     />
   );
 };

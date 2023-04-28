@@ -1,11 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import { Grid } from "@mui/material";
-import useSWRInfinite from "swr/infinite";
 
 import VideoChart from "./VideoChart";
 import ChannelVideoList from "./ChannelVideoList";
-import { IChannelVideoWithPagination } from "../utils/interfaces";
-import { mainFetcher } from "../utils/fetchers";
 
 interface IVideoInfo {
   videoId: number;
@@ -42,10 +39,10 @@ const VideosWithChart = (props: {
       }}
     >
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={6} md={5}>
           {curVideoId && <VideoChart />}
         </Grid>
-        <Grid item xs={12} sm={7}>
+        <Grid item xs={12} sm={6} md={7}>
           <ChannelVideoList channelId={channelId} />
         </Grid>
       </Grid>

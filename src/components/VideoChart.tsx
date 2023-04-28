@@ -25,10 +25,10 @@ const VideoChart = () => {
     let highestRank = 50;
     let lowestRank = 1;
     let prevDay: string | null = null;
-    video_data?.forEach((value, index, array) => {
+    video_data?.forEach((value) => {
       if (prevDay) {
         const prev = dayjs(prevDay);
-        if (prev.diff(value.day, "day") < -1) {
+        if (prev.diff(value.day, "hour") < -6) {
           viewsData.push(null);
           rankData.push(null);
           dayData.push("...");
@@ -84,7 +84,7 @@ const VideoChart = () => {
               labels: {
                 formatter: (value) => {
                   if (value === "...") return value;
-                  return dayjs(value).locale("ko").format("M.D(dd)");
+                  return dayjs(value).locale("ko").format("M.D(dd) A h시");
                 },
                 style: {
                   colors: theme.palette.mode === "light" ? "#000" : "#fff",

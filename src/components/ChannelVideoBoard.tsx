@@ -15,9 +15,8 @@ import { pastAwayJs } from "../utils/dayjs";
 
 const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
   const { setCurrentVideo } = useContext(CurVideoForChartContext);
-  const { id, title, url, record_at } = props.data;
+  const { id, title, url, initial_record: record_at } = props.data;
   const tag = url.slice(url.length - 11, url.length);
-
   return (
     <Card elevation={0}>
       <CardActionArea

@@ -9,8 +9,7 @@ interface IPagination {
 }
 export interface IRecording {
   id: number;
-  date: string;
-  time: string;
+  record_at: string;
 }
 
 export interface ISimpleVideo {
@@ -65,7 +64,7 @@ export interface IVideoWithRecords {
 }
 
 export interface IVideoWithRecordAt extends ISimpleVideo {
-  record_at: string;
+  initial_record: string;
 }
 
 export interface IChannelVideoWithPagination extends IPagination {
