@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { numWithDot, shortenNum } from "../utils/formatters";
 import { TrendForGraph } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
-import { CharWrapper, SpinnerBox } from "./styles";
+import { ChartWrapper, SpinnerBox } from "./styles";
 import { CurVideoForChartContext } from "./VideosWithChart";
 
 const VideoChart = () => {
@@ -28,7 +28,7 @@ const VideoChart = () => {
     video_data?.forEach((value) => {
       if (prevDay) {
         const prev = dayjs(prevDay);
-        if (prev.diff(value.day, "hour") < -6) {
+        if (prev.diff(value.day, "hour") < -12) {
           viewsData.push(null);
           rankData.push(null);
           dayData.push("...");
@@ -52,7 +52,7 @@ const VideoChart = () => {
   }, [video_data]);
 
   return (
-    <CharWrapper>
+    <ChartWrapper>
       {currentVideo && (
         <Chip
           icon={<Timeline />}
@@ -189,10 +189,7 @@ const VideoChart = () => {
               theme.palette.secondary.light,
             ],
             legend: {
-              show: true,
-              labels: {
-                useSeriesColors: true,
-              },
+              show: false,
             },
             tooltip: {
               enabled: true,
@@ -218,14 +215,14 @@ const VideoChart = () => {
             },
           }}
           series={reformattedData.series}
-          height={"250px"}
+          height={"300px"}
         />
       ) : (
         <SpinnerBox sx={{ height: "100%" }}>
           <CircularProgress />
         </SpinnerBox>
       )}
-    </CharWrapper>
+    </ChartWrapper>
   );
 };
 export default VideoChart;

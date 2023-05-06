@@ -29,7 +29,7 @@ const Layout = () => {
   const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
   const isMobileSize = useMediaQuery(theme.breakpoints.down("sm"));
-  const [openSearchBar, setOpenSearchBar] = useState(false);
+  const [openSearchModal, setOpenSearchModal] = useState(false);
 
   return (
     <>
@@ -62,7 +62,7 @@ const Layout = () => {
               )}
             </IconButton>
             {isMobileSize ? (
-              <DefaultSearchIcon onClick={() => setOpenSearchBar(true)} />
+              <DefaultSearchIcon onClick={() => setOpenSearchModal(true)} />
             ) : (
               <SearchBar />
             )}
@@ -74,7 +74,7 @@ const Layout = () => {
         <Outlet />
       </Box>
       <Footer />
-      <SearchBarModal open={openSearchBar} setOpen={setOpenSearchBar} />
+      <SearchBarModal open={openSearchModal} setOpen={setOpenSearchModal} />
     </>
   );
 };

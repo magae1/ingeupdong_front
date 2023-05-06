@@ -65,7 +65,7 @@ const Footer = () => {
                 <Typography variant={"h5"}>인급동 히스토리</Typography>
                 <Typography variant={"caption"}>
                   유튜브 인기 급상승 동영상(인급동)을 기록하는 사이트입니다.
-                  매일 오후 6시에 기록됩니다.
+                  매일 오전/오후 6시에 기록됩니다.
                   <Link href={"/admin"}>관리자 페이지</Link>
                 </Typography>
               </CardContent>

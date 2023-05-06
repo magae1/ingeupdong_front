@@ -2,6 +2,7 @@ import {
   Box,
   Card,
   Container,
+  Divider,
   IconButton,
   IconButtonProps,
   InputBase,
@@ -94,12 +95,6 @@ export const CenterFlexDiv = styled("div")`
   height: 100%;
 `;
 
-export const TrendVideoWrapper = styled(Box)(({ theme }) => ({
-  border: "1px solid",
-  borderColor: grey[theme.palette.mode === "dark" ? 900 : 400],
-  borderRadius: theme.spacing(1),
-}));
-
 export const CoverBox = styled(Box)(({ theme, className }) => ({
   display: "flex",
   justifyContent: "center",
@@ -108,14 +103,12 @@ export const CoverBox = styled(Box)(({ theme, className }) => ({
   backgroundPositionX: "center",
   backgroundPositionY: "center",
   backgroundSize: "cover",
-  borderBottomRightRadius: theme.spacing(0.5),
+  borderRadius: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
     height: "200px",
-    borderBottomLeftRadius: theme.spacing(0.5),
   },
   [theme.breakpoints.up("sm")]: {
     height: "100%",
-    borderTopRightRadius: theme.spacing(0.5),
   },
 }));
 
@@ -220,12 +213,13 @@ export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
   borderBottomLeftRadius: theme.spacing(0.5),
 }));
 
-export const CharWrapper = styled(Box)(({ theme }) => ({
+export const ChartWrapper = styled(Box)(({ theme }) => ({
   width: "inherit",
   height: "100%",
   borderRadius: "15px",
-  border: `1px solid ${theme.palette.mode === "light" ? grey[300] : grey[500]}`,
-  padding: "3px 1px 5px",
+  border: `1px solid ${grey[theme.palette.mode === "light" ? 300 : 800]}`,
+  padding: "3px 1px 1px",
+  margin: `0 ${theme.spacing(1)} `,
 }));
 
 export const ChannelInfos = styled(Box)`
@@ -236,7 +230,15 @@ export const ChannelInfos = styled(Box)`
   padding-bottom: 25px;
 `;
 
-export const AutoSizerWrapper = styled("div")(({ theme }) => ({
-  height: "calc(100% - 31px)",
-  minHeight: "300px",
+export const TrendVideoDivider = styled(Divider)(({ theme }) => ({
+  borderColor: grey[theme.palette.mode === "light" ? 300 : 900],
 }));
+
+export const TrendBoardTitleTypo = styled(Typography)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  font-weight: 500;
+`;

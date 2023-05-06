@@ -38,11 +38,11 @@ const VideosWithChart = (props: {
         setCurrentVideo: setVideoId,
       }}
     >
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6} md={5}>
+      <Grid container>
+        <Grid item xs={12} sm={6} md={6.5}>
           {curVideoId && <VideoChart />}
         </Grid>
-        <Grid item xs={12} sm={6} md={7}>
+        <Grid item xs={12} sm={6} md={5.5}>
           <ChannelVideoList channelId={channelId} />
         </Grid>
       </Grid>

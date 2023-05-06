@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref } from "react";
+import React, { forwardRef, memo, Ref } from "react";
 import {
   Button,
   Card,
@@ -7,7 +7,6 @@ import {
   CardMedia,
   Skeleton,
   Stack,
-  Typography,
   Grid,
   Box,
 } from "@mui/material";
@@ -15,7 +14,7 @@ import ReactPlayer from "react-player";
 import useSWR from "swr";
 import dayjs from "dayjs";
 
-import { ModalContainer, RecordsTypo } from "./styles";
+import { ModalContainer, RecordsTypo, TrendBoardTitleTypo } from "./styles";
 import ChannelChip from "./ChannelChip";
 import { mainFetcher } from "../utils/fetchers";
 import { IVideoWithRecords } from "../utils/interfaces";
@@ -97,7 +96,7 @@ const VideoPlayerModal = forwardRef(
                 </Grid>
               </Grid>
             ) : (
-              <Stack spacing={0.5}>
+              <Stack spacing={0.5} minHeight={"80px"}>
                 <Box>
                   <RecordsTypo component={"span"}>
                     {recordsTag(video.records)}
@@ -107,7 +106,7 @@ const VideoPlayerModal = forwardRef(
                     channelId={video.channel.id}
                   />
                 </Box>
-                <Typography>{video.title}</Typography>
+                <TrendBoardTitleTypo>{video.title}</TrendBoardTitleTypo>
               </Stack>
             )}
           </CardContent>
@@ -122,4 +121,4 @@ const VideoPlayerModal = forwardRef(
   }
 );
 
-export default VideoPlayerModal;
+export default memo(VideoPlayerModal);

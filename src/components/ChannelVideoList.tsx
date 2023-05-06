@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import { Whatshot } from "@mui/icons-material";
 import { areEqual, FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import {
   IChannelVideoWithPagination,
@@ -12,7 +13,6 @@ import {
 } from "../utils/interfaces";
 import ChannelVideoBoard from "./ChannelVideoBoard";
 import { ErrorTypo, InfoLabel } from "./styles";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { mainFetcher } from "../utils/fetchers";
 
 const Row = memo(

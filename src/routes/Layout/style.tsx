@@ -1,12 +1,11 @@
 import { styled } from "@mui/material/styles";
 import { AppBar } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { NavLink } from "react-router-dom";
 
 export const LayoutAppBar = styled(AppBar)(({ theme }) => ({
   boxShadow: "none",
   position: "fixed",
-  borderBottom: `1px solid ${grey[theme.palette.mode === "dark" ? 800 : 300]}`,
+  borderWidth: "0",
   disableGutters: true,
   backgroundColor: theme.palette.primary.dark,
 }));

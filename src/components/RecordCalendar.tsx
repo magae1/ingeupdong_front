@@ -16,6 +16,7 @@ import _ from "underscore";
 import { IRecording } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 import { CalendarModalControl } from "./CalendarModal";
+import { recordUrlJs } from "../utils/dayjs";
 
 interface Props {
   initDate: Dayjs;
@@ -38,9 +39,7 @@ const RecordedDay = (
       outsideCurrentMonth={outsideCurrentMonth}
       day={day}
       disabled={!isEnabled}
-      onClick={() =>
-        navigate(`/${dayjs(data[dataIndex].record_at).format("YYYY-MM-DD")}`)
-      }
+      onClick={() => navigate(`/${recordUrlJs(data[dataIndex].record_at)}`)}
     />
   );
 };

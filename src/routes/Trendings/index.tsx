@@ -31,7 +31,7 @@ const Trendings = () => {
   }, [recordData]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    return () => window.scrollTo(0, 0);
   }, [recordDate]);
 
   return (
@@ -45,7 +45,11 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.prev_record?.record_at}`);
+                    navigate(
+                      `../${dayjs(recordData.prev_record?.record_at).format(
+                        "YYYY-MM-DD-HH"
+                      )}`
+                    );
                   }}
                   disabled={_.isEmpty(recordData.prev_record)}
                   sx={{ height: "100%" }}
@@ -62,7 +66,11 @@ const Trendings = () => {
                 <Button
                   fullWidth
                   onClick={() => {
-                    navigate(`../${recordData.next_record?.record_at}`);
+                    navigate(
+                      `../${dayjs(recordData.next_record?.record_at).format(
+                        "YYYY-MM-DD-HH"
+                      )}`
+                    );
                   }}
                   disabled={_.isEmpty(recordData.next_record)}
                   sx={{ height: "100%" }}

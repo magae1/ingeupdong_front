@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import _ from "underscore";
 import useSWRInfinite from "swr/infinite";
-import { CircularProgress, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 
 import { ITrendingWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
-import { CenterFlexDiv, ErrorTypo, SpinnerBox } from "./styles";
+import {
+  CenterFlexDiv,
+  ErrorTypo,
+  SpinnerBox,
+  TrendVideoDivider,
+} from "./styles";
 import TrendVideoBoard from "./TrendVideoBoard";
 import ScrollToTopButton from "./ScrollToTopButton";
 
@@ -70,19 +75,21 @@ const TrendVideoList = ({ recordId }: Props) => {
   if (error) return <ErrorTypo>알 수 없는 오류가 발생했어요.</ErrorTypo>;
 
   return (
-    <Stack spacing={2} mb={3}>
-      {trends}
-      {isLoadingMore && (
-        <SpinnerBox>
-          <CircularProgress />
-        </SpinnerBox>
-      )}
+    <Box mb={2}>
+      <Stack spacing={2} mb={3} divider={<TrendVideoDivider />}>
+        {trends}
+        {isLoadingMore && (
+          <SpinnerBox>
+            <CircularProgress />
+          </SpinnerBox>
+        )}
+      </Stack>
       {!isEmpty && isReachingEnd && (
         <CenterFlexDiv>
           <ScrollToTopButton />
         </CenterFlexDiv>
       )}
-    </Stack>
+    </Box>
   );
 };
 
