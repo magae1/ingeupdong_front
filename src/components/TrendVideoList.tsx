@@ -1,18 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import _ from "underscore";
 import useSWRInfinite from "swr/infinite";
-import { Box, CircularProgress, Stack } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 
 import { ITrendingWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
-import {
-  CenterFlexDiv,
-  ErrorTypo,
-  SpinnerBox,
-  TrendVideoDivider,
-} from "./styles";
+import { CenterFlexBox, ErrorTypo } from "./styles";
 import TrendVideoBoard from "./TrendVideoBoard";
 import ScrollToTopButton from "./ScrollToTopButton";
+import LoadingTrendVideoBoard from "./LoadingTrendVideoBoard";
 
 interface Props {
   recordId: string;
@@ -49,10 +45,16 @@ const TrendVideoList = ({ recordId }: Props) => {
     [data]
   );
 
+  const loadingBoards = useMemo(() => {
+    return _.range(SIZE).map(() => (
+      <LoadingTrendVideoBoard key={_.uniqueId("loading-trend-video")} />
+    ));
+  }, []);
+
   const handleInfiniteScroll = useCallback(
     _.throttle(() => {
       let footerSize =
-        document.getElementsByTagName("footer").item(0)?.offsetHeight ?? 0;
+        document.getElementsByTagName("footer").item(0)?.offsetHeight ?? 200;
       let scrollBarSize = window.innerHeight;
       let scrollBarTop = document.documentElement.scrollTop;
       let scrollBarBottom = scrollBarTop + scrollBarSize;
@@ -76,18 +78,14 @@ const TrendVideoList = ({ recordId }: Props) => {
 
   return (
     <Box mb={2}>
-      <Stack spacing={2} mb={3} divider={<TrendVideoDivider />}>
+      <Stack spacing={2} mb={3} divider={<Divider />}>
         {trends}
-        {isLoadingMore && (
-          <SpinnerBox>
-            <CircularProgress />
-          </SpinnerBox>
-        )}
+        {isLoadingMore && loadingBoards}
       </Stack>
       {!isEmpty && isReachingEnd && (
-        <CenterFlexDiv>
+        <CenterFlexBox>
           <ScrollToTopButton />
-        </CenterFlexDiv>
+        </CenterFlexBox>
       )}
     </Box>
   );

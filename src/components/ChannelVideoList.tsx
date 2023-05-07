@@ -1,97 +1,67 @@
-import React, { memo, useMemo } from "react";
-import useSWRInfinite from "swr/infinite";
+import React, { useMemo, useState } from "react";
 import _ from "underscore";
-import { Box } from "@mui/material";
-import { Whatshot } from "@mui/icons-material";
-import { areEqual, FixedSizeList as List } from "react-window";
-import InfiniteLoader from "react-window-infinite-loader";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { Stack, Box, Button, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import useSWR from "swr";
 
-import {
-  IChannelVideoWithPagination,
-  IVideoWithRecordAt,
-} from "../utils/interfaces";
+import { IChannelVideoWithPagination } from "../utils/interfaces";
 import ChannelVideoBoard from "./ChannelVideoBoard";
-import { ErrorTypo, InfoLabel } from "./styles";
+import { ChannelVideoPageButtonsBox, ErrorTypo } from "./styles";
 import { mainFetcher } from "../utils/fetchers";
-
-const Row = memo(
-  (props: { data: IVideoWithRecordAt[]; index: number; style?: {} }) => {
-    const { data, index, style } = props;
-    const item = data[index];
-
-    return (
-      <div style={style}>
-        <ChannelVideoBoard data={item} />
-      </div>
-    );
-  },
-  areEqual
-);
+import LoadingChannelVideoBoard from "./LoadingChannelVideoBoard";
 
 const ChannelVideoList = (props: { channelId: number }) => {
   const { channelId } = props;
-  const { data, isLoading, isValidating, error, setSize, size } =
-    useSWRInfinite<IChannelVideoWithPagination>(
-      (index, previousPageData) => {
-        if (previousPageData && !previousPageData.next) return null;
-        if (!index) return `/channel/${channelId}/videos/`;
-        return `/channel/${channelId}/videos/?page=${index}`;
-      },
+  const [currentPage, setPage] = useState(1);
+  const { data, isLoading, isValidating, error } =
+    useSWR<IChannelVideoWithPagination>(
+      `/channel/${channelId}/videos/?page=${currentPage}`,
       mainFetcher,
       {
         revalidateIfStale: false,
         revalidateOnFocus: false,
       }
     );
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-  const isEmpty = !data || data[0].count === 0;
-  const isReachingEnd = isEmpty || !data?.[data?.length - 1].next;
-  const isRefreshing = isValidating && data && data.length === size;
-
-  const videos = useMemo(
-    () =>
-      _.chain(data)
-        .map((value) => value.results)
-        .flatten()
-        .value(),
-    [data]
+  const maxPages: number = useMemo(
+    () => (data ? Math.ceil(data.count / 3) : 1),
+    []
   );
+  const videos = useMemo(() => {
+    if (!data || isLoading || isValidating) {
+      return _.range(3).map(() => (
+        <LoadingChannelVideoBoard key={_.uniqueId("loading-channel-video")} />
+      ));
+    } else {
+      return _.chain(data.results)
+        .map((value) => (
+          <ChannelVideoBoard data={value} key={_.uniqueId("channel-video")} />
+        ))
+        .value();
+    }
+  }, [data]);
 
   if (error) return <ErrorTypo>알 수 없는 오류가 발생했어요.</ErrorTypo>;
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <InfoLabel sx={{ marginBottom: "0px", py: "3px" }}>
-        <Whatshot sx={{ mr: 0.5, verticalAlign: "middle" }} />이 채널의 인급동들
-      </InfoLabel>
-      <div style={{ height: "calc(100% - 31px)", minHeight: "300px" }}>
-        <InfiniteLoader
-          isItemLoaded={(index) => true}
-          loadMoreItems={(startIndex, stopIndex) => {
-            setSize((_size) => _size + 1);
-          }}
-          itemCount={videos.length}
+    <Box minHeight={440} display={"flex"} flexDirection={"column"}>
+      <Stack spacing={1.5}>{videos}</Stack>
+      <ChannelVideoPageButtonsBox pt={1} pb={0.5}>
+        <Button
+          disabled={!data?.previous}
+          onClick={() => setPage((prevState) => prevState - 1)}
         >
-          {({ onItemsRendered, ref }) => (
-            <AutoSizer>
-              {({ height, width }) => (
-                <List
-                  itemSize={150}
-                  height={height ?? 0}
-                  itemCount={videos.length}
-                  width={width ?? 0}
-                  itemData={videos}
-                  onItemsRendered={onItemsRendered}
-                >
-                  {Row}
-                </List>
-              )}
-            </AutoSizer>
-          )}
-        </InfiniteLoader>
-      </div>
+          이전
+        </Button>
+        <Typography sx={{ pt: 0.8, textAlign: "center" }}>
+          {currentPage} / {maxPages}
+        </Typography>
+        <Button
+          disabled={!data?.next}
+          onClick={() => setPage((prevState) => prevState + 1)}
+        >
+          다음
+        </Button>
+      </ChannelVideoPageButtonsBox>
     </Box>
   );
 };

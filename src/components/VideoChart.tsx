@@ -1,6 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { Chip, CircularProgress, useTheme } from "@mui/material";
-import { Close, Timeline } from "@mui/icons-material";
+import { CircularProgress, useTheme } from "@mui/material";
 import useSWR from "swr";
 import ReactApexChart from "react-apexcharts";
 import dayjs from "dayjs";
@@ -9,11 +8,11 @@ import { numWithDot, shortenNum } from "../utils/formatters";
 import { TrendForGraph } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 import { ChartWrapper, SpinnerBox } from "./styles";
-import { CurVideoForChartContext } from "./VideosWithChart";
+import { CurVideoForChartContext } from "./VideosWithChartBlock";
 
 const VideoChart = () => {
   const theme = useTheme();
-  const { currentVideo, setCurrentVideo } = useContext(CurVideoForChartContext);
+  const { currentVideo } = useContext(CurVideoForChartContext);
   const { data: video_data } = useSWR<TrendForGraph[]>(
     !currentVideo ? null : `/video/${currentVideo.videoId}/graphed/`,
     mainFetcher
@@ -53,27 +52,6 @@ const VideoChart = () => {
 
   return (
     <ChartWrapper>
-      {currentVideo && (
-        <Chip
-          icon={<Timeline />}
-          sx={{
-            width: "100%",
-            height: "30px",
-            background: "rgba(0,0,0,0)",
-            "& .MuiChip-label": {
-              display: "inline-block",
-              width: "100%",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            },
-          }}
-          size={"medium"}
-          label={currentVideo.videoTitle}
-          deleteIcon={<Close />}
-          onDelete={() => setCurrentVideo(null)}
-        />
-      )}
       {video_data ? (
         <ReactApexChart
           options={{
@@ -218,7 +196,7 @@ const VideoChart = () => {
           height={"300px"}
         />
       ) : (
-        <SpinnerBox sx={{ height: "100%" }}>
+        <SpinnerBox sx={{ height: "300px" }}>
           <CircularProgress />
         </SpinnerBox>
       )}

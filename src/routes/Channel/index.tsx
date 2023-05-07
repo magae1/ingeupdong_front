@@ -5,7 +5,7 @@ import { YouTube } from "@mui/icons-material";
 
 import { IChannelWithLatestVideo } from "../../utils/interfaces";
 import { ChannelNameTypo, ChannelContainer } from "./style";
-import VideosWithChart from "../../components/VideosWithChart";
+import VideosWithChartBlock from "../../components/VideosWithChartBlock";
 import HelloChannelBlock from "../../components/HelloChannelBlock";
 
 const Channel = () => {
@@ -35,9 +35,9 @@ const Channel = () => {
       </ChannelContainer>
       <Box sx={{ width: "100%" }} my={1}>
         <Container maxWidth={"md"}>
-          <Stack spacing={3} mb={2}>
+          <Stack mb={2}>
             <HelloChannelBlock />
-            <VideosWithChart
+            <VideosWithChartBlock
               channelInfo={{ id: id, name: name, handle: handle }}
             />
           </Stack>

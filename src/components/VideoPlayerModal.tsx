@@ -9,12 +9,13 @@ import {
   Stack,
   Grid,
   Box,
+  useTheme,
 } from "@mui/material";
 import ReactPlayer from "react-player";
 import useSWR from "swr";
 import dayjs from "dayjs";
 
-import { ModalContainer, RecordsTypo, TrendBoardTitleTypo } from "./styles";
+import { ModalContainer, RecordsTypo, VideoTitleTypo } from "./styles";
 import ChannelChip from "./ChannelChip";
 import { mainFetcher } from "../utils/fetchers";
 import { IVideoWithRecords } from "../utils/interfaces";
@@ -50,6 +51,8 @@ interface Props {
 
 const VideoPlayerModal = forwardRef(
   ({ closeModal, videoId }: Props, ref: Ref<HTMLDivElement>) => {
+    const theme = useTheme();
+
     const {
       data: video,
       isLoading,
@@ -63,7 +66,7 @@ const VideoPlayerModal = forwardRef(
 
     return (
       <ModalContainer maxWidth={"md"} ref={ref}>
-        <Card>
+        <Card sx={{ bgcolor: theme.palette.card.main }}>
           <CardMedia style={{ aspectRatio: 16 / 9 }}>
             {!video || isValidating || isLoading ? (
               <Skeleton
@@ -106,7 +109,7 @@ const VideoPlayerModal = forwardRef(
                     channelId={video.channel.id}
                   />
                 </Box>
-                <TrendBoardTitleTypo>{video.title}</TrendBoardTitleTypo>
+                <VideoTitleTypo>{video.title}</VideoTitleTypo>
               </Stack>
             )}
           </CardContent>

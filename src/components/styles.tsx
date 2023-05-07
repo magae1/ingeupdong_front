@@ -2,11 +2,11 @@ import {
   Box,
   Card,
   Container,
-  Divider,
   IconButton,
   IconButtonProps,
   InputBase,
   Paper,
+  PaperProps,
   Tooltip,
   tooltipClasses,
   TooltipProps,
@@ -88,7 +88,7 @@ export const ErrorTypo = styled(Typography)(() => ({
   textAlign: "center",
 }));
 
-export const CenterFlexDiv = styled("div")`
+export const CenterFlexBox = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,7 +98,8 @@ export const CenterFlexDiv = styled("div")`
 export const CoverBox = styled(Box)(({ theme, className }) => ({
   display: "flex",
   justifyContent: "center",
-  backgroundImage: `url(https://img.youtube.com/vi/${className}/0.jpg)`,
+  backgroundImage:
+    className && `url(https://img.youtube.com/vi/${className}/0.jpg)`,
   backgroundRepeat: "no-repeat",
   backgroundPositionX: "center",
   backgroundPositionY: "center",
@@ -122,7 +123,8 @@ export const IButton = styled(IconButton)(({ theme }) => ({
 export const InfoLabel = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   marginBottom: 6,
-  borderBottom: `1px solid ${grey[theme.palette.mode === "dark" ? 700 : 400]}`,
+  paddingY: 3,
+  borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
 export const InfoCard = styled(Card)(() => ({
@@ -141,7 +143,7 @@ export const FlexBox = styled(Box)(({ theme }) => ({
 
 export const BottomBox = styled("footer")(({ theme }) => ({
   width: "100%",
-  backgroundColor: grey[theme.palette.mode === "dark" ? 900 : 300],
+  backgroundColor: theme.palette.mode === "light" ? "#e6e6e6" : "#1e1e1e",
 }));
 
 export const ModalBox = styled(Box)(({ theme }) => ({
@@ -217,9 +219,7 @@ export const ChartWrapper = styled(Box)(({ theme }) => ({
   width: "inherit",
   height: "100%",
   borderRadius: "15px",
-  border: `1px solid ${grey[theme.palette.mode === "light" ? 300 : 800]}`,
-  padding: "3px 1px 1px",
-  margin: `0 ${theme.spacing(1)} `,
+  padding: "1.5px 0px",
 }));
 
 export const ChannelInfos = styled(Box)`
@@ -230,15 +230,28 @@ export const ChannelInfos = styled(Box)`
   padding-bottom: 25px;
 `;
 
-export const TrendVideoDivider = styled(Divider)(({ theme }) => ({
-  borderColor: grey[theme.palette.mode === "light" ? 300 : 900],
-}));
-
-export const TrendBoardTitleTypo = styled(Typography)`
+export const VideoTitleTypo = styled(Typography)`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   font-weight: 500;
+  line-height: 1.25rem;
+`;
+
+export const ChannelPaper = styled(({ ...props }: PaperProps) => (
+  <Paper {...props} elevation={0}></Paper>
+))(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  padding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+  border: `0.5px solid ${theme.palette.divider}`,
+}));
+
+export const ChannelVideoPageButtonsBox = styled(Box)`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 64px 1fr 64px;
+  margin-top: auto;
 `;

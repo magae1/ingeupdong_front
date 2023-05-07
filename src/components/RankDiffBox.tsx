@@ -1,7 +1,8 @@
+import React, { useMemo } from "react";
 import { Box, Stack, useTheme } from "@mui/material";
-import { useMemo } from "react";
-import { RankDiff, RankState } from "./styles";
 import { MovingSharp } from "@mui/icons-material";
+
+import { RankDiff, RankState } from "./styles";
 
 interface Props {
   prevRank: number | undefined;

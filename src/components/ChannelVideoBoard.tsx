@@ -1,24 +1,27 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 
 import { IVideoWithRecordAt } from "../utils/interfaces";
 import VideoButtons from "./VideoButtons";
-import { ChannelVideoThumbnail } from "./styles";
-import { CurVideoForChartContext } from "./VideosWithChart";
+import { ChannelVideoThumbnail, VideoTitleTypo } from "./styles";
+import { CurVideoForChartContext } from "./VideosWithChartBlock";
 import { pastAwayJs } from "../utils/dayjs";
 
 const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
   const { setCurrentVideo } = useContext(CurVideoForChartContext);
   const { id, title, url, initial_record: record_at } = props.data;
   const tag = url.slice(url.length - 11, url.length);
+  const theme = useTheme();
+
   return (
-    <Card elevation={0}>
+    <Card sx={{ bgcolor: theme.palette.card.main }}>
       <CardActionArea
         onClick={() => setCurrentVideo({ videoTitle: title, videoId: id })}
       >
@@ -27,18 +30,7 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
             <Typography sx={{ fontSize: "12px", color: "grey" }}>
               #{pastAwayJs(record_at)} 인급동 진입
             </Typography>
-            <Typography
-              component={"span"}
-              style={{
-                display: "inline-block",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                width: "inherit",
-              }}
-            >
-              {title}
-            </Typography>
+            <VideoTitleTypo>{title}</VideoTitleTypo>
           </Stack>
         </CardContent>
       </CardActionArea>
@@ -49,4 +41,4 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
   );
 };
 
-export default ChannelVideoBoard;
+export default memo(ChannelVideoBoard);

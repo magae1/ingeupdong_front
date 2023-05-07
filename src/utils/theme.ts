@@ -1,5 +1,13 @@
 import { PaletteMode } from "@mui/material";
-import { amber, deepOrange, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
+declare module "@mui/material/styles" {
+  interface Palette {
+    card: Palette["primary"];
+  }
+  interface PaletteOptions {
+    card: PaletteOptions["primary"];
+  }
+}
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -16,10 +24,13 @@ const getDesignTokens = (mode: PaletteMode) => ({
           secondary: {
             main: "#FE5F00",
           },
-          divider: amber[200],
+          divider: grey[300],
           background: {
             default: grey[200],
-            paper: "#CEC3C1",
+            paper: "rgb(235,235,235)",
+          },
+          card: {
+            main: "#CEC3C1",
           },
           text: {
             primary: grey[900],
@@ -37,10 +48,13 @@ const getDesignTokens = (mode: PaletteMode) => ({
           secondary: {
             main: "#FE5F00",
           },
-          divider: deepOrange[700],
+          divider: grey[900],
           background: {
             default: "#0a0a0a",
-            paper: "#220901",
+            paper: "rgb(12,12,12)",
+          },
+          card: {
+            main: "#220901",
           },
           text: {
             primary: "#fff",

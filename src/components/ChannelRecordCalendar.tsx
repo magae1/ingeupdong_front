@@ -6,7 +6,7 @@ import _ from "underscore";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import { ICalendar } from "../utils/interfaces";
-import { grey, red } from "@mui/material/colors";
+import { deepOrange, grey, red } from "@mui/material/colors";
 
 dayjs.extend(weekOfYear);
 const paddingDates = (startDate: string, endDate: string) => {
@@ -43,7 +43,7 @@ const ChannelRecordCalendar = (props: {
       if (curDay in table) {
         result[i].push(table[curDay]);
       } else {
-        result[i].push(null);
+        result[i].push(0);
       }
       if (currentDate.isSame(lastDate)) break;
       currentDate = currentDate.add(1, "d");
@@ -80,24 +80,24 @@ const ChannelRecordCalendar = (props: {
                   from: 0,
                   to: 0,
                   color: grey[theme.palette.mode === "light" ? 300 : 900],
-                  name: "없음",
+                  name: "0개",
                 },
                 {
                   from: 1,
                   to: 1,
-                  color: red[300],
+                  color: deepOrange[100],
                   name: "1개",
                 },
                 {
                   from: 2,
                   to: 2,
-                  color: red[500],
+                  color: deepOrange[300],
                   name: "2개",
                 },
                 {
                   from: 3,
                   to: 50,
-                  color: red[800],
+                  color: deepOrange[600],
                   name: "3+개",
                 },
               ],
@@ -121,7 +121,7 @@ const ChannelRecordCalendar = (props: {
             },
           },
         },
-        tooltip: { enabled: true },
+        tooltip: { enabled: false },
       }}
       height={height}
     />

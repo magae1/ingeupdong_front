@@ -12,7 +12,7 @@ import RankDiffBox from "./RankDiffBox";
 import ChannelChip from "./ChannelChip";
 import ThumbnailBox from "./ThumbnailBox";
 import ViewsWithDetails from "./ViewsWithDetails";
-import { TrendBoardTitleTypo } from "./styles";
+import { VideoTitleTypo } from "./styles";
 
 interface Props {
   data: ITrendingWithPrev;
@@ -37,7 +37,7 @@ const TrendVideoBoard = ({ data }: Props) => {
           {smallerSM ? (
             <Typography sx={{ fontWeight: 500 }}>{video.title}</Typography>
           ) : (
-            <TrendBoardTitleTypo>{video.title}</TrendBoardTitleTypo>
+            <VideoTitleTypo>{video.title}</VideoTitleTypo>
           )}
           <ViewsWithDetails curViews={views} prevViews={prev_trend?.views} />
         </Stack>
