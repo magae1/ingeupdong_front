@@ -13,6 +13,7 @@ export const pastAwayJs = (time: string) => {
   const theDay = dayjs(time);
   let diffFromToday = dayjs(today).diff(theDay, "d", true);
   if (diffFromToday < 1 && today.getDate() === theDay.date()) return "오늘";
+  if (diffFromToday <= 1 && today.getDate() !== theDay.date()) return "어제";
   return theDay.locale("ko").fromNow();
 };
 

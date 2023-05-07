@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router";
 import _ from "underscore";
 import { Button, Container, Grid, Toolbar } from "@mui/material";
@@ -20,6 +20,7 @@ const Trendings = () => {
   const recordData = useLoaderData() as IPrevAndNextRecording;
   const { recordDate } = useParams();
   const navigate = useNavigate();
+  const isMounted = useRef(false);
   const [open, setOpen] = React.useState(false);
   const HighlightDateForm = useMemo(() => {
     const dayObj = dayjs(recordData.record_at);
@@ -31,7 +32,11 @@ const Trendings = () => {
   }, [recordData]);
 
   useEffect(() => {
-    return () => window.scrollTo(0, 0);
+    if (!isMounted.current) {
+      isMounted.current = true;
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [recordDate]);
 
   return (
