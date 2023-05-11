@@ -20,7 +20,7 @@ const Trendings = () => {
   const recordData = useLoaderData() as IPrevAndNextRecording;
   const { recordDate } = useParams();
   const navigate = useNavigate();
-  const isMounted = useRef(false);
+  const prevRecordDate = useRef(recordDate);
   const [open, setOpen] = React.useState(false);
   const HighlightDateForm = useMemo(() => {
     const dayObj = dayjs(recordData.record_at);
@@ -32,10 +32,10 @@ const Trendings = () => {
   }, [recordData]);
 
   useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-    } else {
+    if (prevRecordDate.current !== recordDate) {
       window.scrollTo(0, 0);
+    } else {
+      prevRecordDate.current = recordDate;
     }
   }, [recordDate]);
 

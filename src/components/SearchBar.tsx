@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Autocomplete, Typography, Skeleton, useTheme } from "@mui/material";
+import {
+  Autocomplete,
+  Typography,
+  Skeleton,
+  useTheme,
+  Paper,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import _ from "underscore";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import { orange } from "@mui/material/colors";
+import { amber } from "@mui/material/colors";
 
 import { IChannel } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
@@ -73,6 +79,9 @@ const SearchBar = (props: { closeModal?: () => void; autoFocus?: boolean }) => {
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.name
       }
+      PaperComponent={(props) => (
+        <Paper {...props} sx={{ bgcolor: theme.palette.card.main }} />
+      )}
       filterOptions={(x) => x}
       options={options}
       includeInputInList
@@ -118,8 +127,9 @@ const SearchBar = (props: { closeModal?: () => void; autoFocus?: boolean }) => {
                   key={index}
                   style={{
                     backgroundColor: part.highlight
-                      ? orange[theme.palette.mode === "light" ? 200 : 900]
+                      ? amber[theme.palette.mode === "light" ? 300 : 800]
                       : undefined,
+                    borderRadius: "3px",
                   }}
                 >
                   {part.text}

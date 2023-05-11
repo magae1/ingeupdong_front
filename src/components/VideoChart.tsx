@@ -1,8 +1,10 @@
 import React, { useContext, useMemo } from "react";
 import { CircularProgress, useTheme } from "@mui/material";
+import { indigo } from "@mui/material/colors";
 import useSWR from "swr";
 import ReactApexChart from "react-apexcharts";
 import dayjs from "dayjs";
+import _ from "underscore";
 
 import { numWithDot, shortenNum } from "../utils/formatters";
 import { TrendForGraph } from "../utils/interfaces";
@@ -18,9 +20,9 @@ const VideoChart = () => {
     mainFetcher
   );
   const reformattedData = useMemo(() => {
-    const viewsData: (number | null)[] = [];
-    const rankData: (number | null)[] = [];
-    const dayData: string[] = [];
+    const viewsData: { x: string; y: number }[] = [];
+    const rankData: { x: string; y: number }[] = [];
+    const annotationDate: { date: string; rank: number }[] = [];
     let highestRank = 50;
     let lowestRank = 1;
     let prevDay: string | null = null;
@@ -28,14 +30,11 @@ const VideoChart = () => {
       if (prevDay) {
         const prev = dayjs(prevDay);
         if (prev.diff(value.day, "hour") < -12) {
-          viewsData.push(null);
-          rankData.push(null);
-          dayData.push("...");
+          annotationDate.push({ date: value.day, rank: value.rank });
         }
       }
-      viewsData.push(value.views);
-      rankData.push(value.rank);
-      dayData.push(value.day);
+      viewsData.push({ x: value.day, y: value.views });
+      rankData.push({ x: value.day, y: value.rank });
       highestRank = Math.min(highestRank, value.rank);
       lowestRank = Math.max(lowestRank, value.rank);
       prevDay = value.day;
@@ -45,8 +44,8 @@ const VideoChart = () => {
         { name: "조회수", type: "area", data: viewsData },
         { name: "순위", type: "line", data: rankData },
       ],
-      labels: dayData,
       rankRange: [highestRank, lowestRank],
+      annotations: annotationDate,
     };
   }, [video_data]);
 
@@ -55,17 +54,36 @@ const VideoChart = () => {
       {video_data ? (
         <ReactApexChart
           options={{
-            labels: reformattedData.labels,
-            xaxis: {
-              type: "category",
-              tickPlacement: "on",
-              labels: {
-                formatter: (value) => {
-                  if (value === "...") return value;
-                  return dayjs(value).locale("ko").format("M.D(dd) A h시");
+            annotations: {
+              xaxis: reformattedData.annotations.map((value) => ({
+                x: new Date(value.date).getTime(),
+                strokeDashArray: 0,
+                borderColor: indigo[400],
+                label: {
+                  borderColor: indigo[400],
+                  style: {
+                    color: "#fff",
+                    background: indigo[400],
+                    fontWeight: 700,
+                  },
+                  orientation: "horizontal",
+                  offsetY: value.rank < 25 ? 240 : -3,
+                  text: "재진입!",
                 },
+              })),
+            },
+            xaxis: {
+              type: "datetime",
+              labels: {
                 style: {
                   colors: theme.palette.mode === "light" ? "#000" : "#fff",
+                },
+                datetimeUTC: false,
+                datetimeFormatter: {
+                  year: "yyyy년",
+                  month: "yy년 MMM",
+                  day: "MMM d일",
+                  hour: "d일 HH:mm",
                 },
               },
             },
@@ -110,12 +128,28 @@ const VideoChart = () => {
               },
             ],
             chart: {
-              zoom: {
-                enabled: false,
-              },
-              toolbar: {
-                show: false,
-              },
+              zoom: { enabled: false },
+              toolbar: { show: false },
+              defaultLocale: "ko",
+              locales: [
+                {
+                  name: "ko",
+                  options: {
+                    months: _.range(1, 13).map((value) => `${value}월`),
+                    shortMonths: _.range(1, 13).map((value) => `${value}월`),
+                    days: [
+                      "일요일",
+                      "월요일",
+                      "화요일",
+                      "수요일",
+                      "목요일",
+                      "금요일",
+                      "토요일",
+                    ],
+                    shortDays: ["일", "월", "화", "수", "목", "금", "토"],
+                  },
+                },
+              ],
             },
             fill: {
               opacity: [0.2, 1],
@@ -154,9 +188,7 @@ const VideoChart = () => {
             },
             markers: {
               size: [5, 0],
-              hover: {
-                size: 9,
-              },
+              hover: { size: 9 },
             },
             dataLabels: {
               enabled: true,
@@ -166,15 +198,15 @@ const VideoChart = () => {
               theme.palette.primary.light,
               theme.palette.secondary.light,
             ],
-            legend: {
-              show: false,
-            },
+            legend: { show: false },
             tooltip: {
               enabled: true,
               shared: true,
               theme: theme.palette.mode,
               x: {
                 show: true,
+                formatter: (val: number) =>
+                  dayjs(val).locale("ko").format("M.D(dd) A h시"),
               },
               y: [
                 {

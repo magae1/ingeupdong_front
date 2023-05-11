@@ -85,8 +85,8 @@ const HelloChannelBlock = () => {
                   </Link>
                 </Typography>
               )}
-              {!isStillLoading && channelHandle[0] === "@" ? (
-                <RankDiff>{channelHandle}</RankDiff>
+              {!isStillLoading ? (
+                channelHandle[0] === "@" && <RankDiff>{channelHandle}</RankDiff>
               ) : (
                 <Skeleton width={100} />
               )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router";
+import { ScrollRestoration } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -74,6 +75,7 @@ const Layout = () => {
         <Outlet />
       </Box>
       <Footer />
+      <ScrollRestoration getKey={(location, matches) => location.key} />
       <SearchBarModal open={openSearchModal} setOpen={setOpenSearchModal} />
     </>
   );

@@ -30,7 +30,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
             paper: "rgb(235,235,235)",
           },
           card: {
-            main: "#CEC3C1",
+            main: "#f1d9d1",
           },
           text: {
             primary: grey[900],
@@ -54,7 +54,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
             paper: "rgb(12,12,12)",
           },
           card: {
-            main: "#220901",
+            main: "rgb(63,18,18)",
           },
           text: {
             primary: "#fff",

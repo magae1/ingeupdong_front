@@ -22,10 +22,7 @@ const ChannelVideoList = (props: { channelId: number }) => {
         revalidateOnFocus: false,
       }
     );
-  const maxPages: number = useMemo(
-    () => (data ? Math.ceil(data.count / 3) : 1),
-    []
-  );
+
   const videos = useMemo(() => {
     if (!data || isLoading || isValidating) {
       return _.range(3).map(() => (
@@ -52,8 +49,15 @@ const ChannelVideoList = (props: { channelId: number }) => {
         >
           이전
         </Button>
-        <Typography sx={{ pt: 0.8, textAlign: "center" }}>
-          {currentPage} / {maxPages}
+        <Typography
+          sx={{
+            pt: 1.2,
+            textAlign: "center",
+            fontSize: "12px",
+            color: grey[600],
+          }}
+        >
+          {currentPage}페이지
         </Typography>
         <Button
           disabled={!data?.next}

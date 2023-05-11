@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material";
+import { deepOrange, grey, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
 import _ from "underscore";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import { ICalendar } from "../utils/interfaces";
-import { deepOrange, grey, red } from "@mui/material/colors";
 
 dayjs.extend(weekOfYear);
 const paddingDates = (startDate: string, endDate: string) => {
@@ -26,29 +26,30 @@ const ChannelRecordCalendar = (props: {
   const theme = useTheme();
   const { records, startDate, endDate, height } = props;
 
-  const data: (number | null)[][] = useMemo(() => {
+  const data = useMemo(() => {
     const { firstDate, lastDate } = paddingDates(startDate, endDate);
     const table: { [key: string]: number } = {};
     records.forEach((value) => {
       table[value.day] = value.value;
     });
-
-    const result: (number | null)[][] = [[]];
+    const result: number[][] = [[]];
     for (let k = 0; k < 6; k++) result.push([]);
     let index = 0;
     let currentDate = firstDate.clone();
-    while (true) {
+    while (currentDate.isBefore(startDate)) {
       let i = index % 7;
-      let curDay = currentDate.format("YYYY-MM-DD");
-      if (curDay in table) {
-        result[i].push(table[curDay]);
-      } else {
-        result[i].push(0);
-      }
-      if (currentDate.isSame(lastDate)) break;
+      result[i].push(-1);
       currentDate = currentDate.add(1, "d");
       index++;
     }
+    do {
+      let i = index % 7;
+      let curDay = currentDate.format("YYYY-MM-DD");
+      if (curDay in table) result[i].push(table[curDay]);
+      else result[i].push(0);
+      currentDate = currentDate.add(1, "d");
+      index++;
+    } while (!currentDate.isAfter(endDate));
     return result;
   }, [records, startDate, endDate]);
 
@@ -79,35 +80,45 @@ const ChannelRecordCalendar = (props: {
                 {
                   from: 0,
                   to: 0,
-                  color: grey[theme.palette.mode === "light" ? 300 : 900],
+                  color: grey[500],
                   name: "0개",
                 },
                 {
                   from: 1,
                   to: 1,
-                  color: deepOrange[100],
+                  color: orange[200],
                   name: "1개",
                 },
                 {
                   from: 2,
                   to: 2,
-                  color: deepOrange[300],
+                  color: orange[500],
                   name: "2개",
                 },
                 {
                   from: 3,
                   to: 50,
-                  color: deepOrange[600],
+                  color: deepOrange[700],
                   name: "3+개",
+                },
+                {
+                  from: -1,
+                  to: -1,
+                  color: theme.palette.divider,
+                  name: "X",
                 },
               ],
               max: 50,
-              min: 0,
+              min: -1,
             },
           },
         },
+        legend: {
+          customLegendItems: ["0개", "1개", "2개", "3+개"],
+          onItemClick: { toggleDataSeries: false },
+        },
         theme: { mode: theme.palette.mode },
-        stroke: { show: false },
+        stroke: { colors: [theme.palette.divider], width: 2.5 },
         dataLabels: { enabled: false },
         xaxis: {
           type: "category",
@@ -117,9 +128,13 @@ const ChannelRecordCalendar = (props: {
           ).map((value) => value),
           labels: {
             formatter: (value: string): string | string[] => {
-              return value + "주";
+              return value + "주차";
             },
           },
+        },
+        states: {
+          hover: { filter: { type: "none" } },
+          active: { filter: { type: "none" } },
         },
         tooltip: { enabled: false },
       }}

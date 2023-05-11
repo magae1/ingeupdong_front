@@ -53,13 +53,14 @@ const TrendVideoList = ({ recordId }: Props) => {
 
   const handleInfiniteScroll = useCallback(
     _.throttle(() => {
+      if (isLoading) return;
       let footerSize =
         document.getElementsByTagName("footer").item(0)?.offsetHeight ?? 200;
       let scrollBarSize = window.innerHeight;
       let scrollBarTop = document.documentElement.scrollTop;
       let scrollBarBottom = scrollBarTop + scrollBarSize;
       let pageHeight = document.documentElement.offsetHeight;
-      if (scrollBarBottom > pageHeight - 2 * footerSize) {
+      if (scrollBarBottom > pageHeight - 3 * footerSize) {
         if (!isReachingEnd && !isRefreshing && !isLoadingMore) {
           setSize((_size) => _size + 1).then();
         }
