@@ -10,8 +10,9 @@ import { ICalendar } from "../utils/interfaces";
 dayjs.extend(weekOfYear);
 
 interface IData {
-  x: dayjs.Dayjs;
+  x: string;
   y: number;
+  z: dayjs.Dayjs;
 }
 
 const paddingDates = (startDate: string, endDate: string) => {
@@ -19,7 +20,9 @@ const paddingDates = (startDate: string, endDate: string) => {
   const e = dayjs(endDate);
   const firstDate = s.subtract(s.day(), "d");
   const lastDate = e.add(6 - e.day(), "d");
-  return { firstDate, lastDate };
+  const lw = lastDate.week();
+  const fw = firstDate.week();
+  return { firstDate, fw, lastDate, lw };
 };
 
 const daysChar = ["일", "월", "화", "수", "목", "금", "토"];
@@ -33,37 +36,40 @@ const ChannelRecordCalendar = (props: {
   const theme = useTheme();
   const { records, startDate, endDate, height } = props;
 
-  const data = useMemo(() => {
-    const { firstDate, lastDate } = paddingDates(startDate, endDate);
+  const series = useMemo(() => {
+    const { firstDate, fw, lastDate, lw } = paddingDates(startDate, endDate);
     const table: { [key: string]: number } = {};
     records.forEach((value) => {
       table[value.day] = value.value;
     });
-    const result: IData[][] = [[]];
-    for (let k = 0; k < 6; k++) result.push([]);
-    let index = 0;
+    const result: { name: string | undefined; data: IData[] }[] = [];
     let currentDate = firstDate.clone();
-    while (currentDate.isBefore(startDate)) {
-      let i = index % 7;
-      result[i].push({ x: currentDate.clone(), y: -1 });
-      currentDate = currentDate.add(1, "d");
-      index++;
+    for (let w = fw; w <= lw; w++) {
+      const data: IData[] = [];
+      for (let d = 0; d < 7; d++) {
+        const xValue = daysChar[d];
+        const zValue = currentDate.clone();
+        if (currentDate.isBefore(startDate)) {
+          data.push({ x: xValue, y: -1, z: zValue });
+        } else if (!currentDate.isAfter(endDate)) {
+          let curDay = currentDate.format("YYYY-MM-DD");
+          if (curDay in table)
+            data.push({ x: xValue, y: table[curDay], z: zValue });
+          else data.push({ x: xValue, y: 0, z: zValue });
+        } else {
+          data.push({ x: xValue, y: -1, z: zValue });
+        }
+        currentDate = currentDate.add(1, "d");
+      }
+      result.push({ name: `${w}`, data: data });
     }
-    do {
-      let i = index % 7;
-      let curDay = currentDate.format("YYYY-MM-DD");
-      if (curDay in table)
-        result[i].push({ x: currentDate.clone(), y: table[curDay] });
-      else result[i].push({ x: currentDate.clone(), y: 0 });
-      currentDate = currentDate.add(1, "d");
-      index++;
-    } while (!currentDate.isAfter(endDate));
-    return daysChar.map((v, index) => ({ name: v, data: result[index] }));
+    return result.reverse();
   }, [records, startDate, endDate]);
+
   return (
     <ReactApexChart
       type={"heatmap"}
-      series={data}
+      series={series}
       options={{
         chart: {
           zoom: { enabled: false },
@@ -113,7 +119,7 @@ const ChannelRecordCalendar = (props: {
           },
         },
         legend: {
-          customLegendItems: ["0개", "1개", "2개", "3+"],
+          customLegendItems: ["0개", "1개", "2개", "3+개"],
           onItemClick: { toggleDataSeries: false },
         },
         theme: { mode: theme.palette.mode },
@@ -122,18 +128,21 @@ const ChannelRecordCalendar = (props: {
           enabled: true,
           formatter: (val, opts) => {
             const currentData =
-              data[opts.seriesIndex].data[opts.dataPointIndex].x;
+              series[opts.seriesIndex].data[opts.dataPointIndex].z;
             if (currentData.date() === 1) return currentData.format("M[월]");
-            return currentData.format("D");
+            if (currentData.date() % 3 === 0)
+              return currentData.format("D[일]");
+            return "";
           },
           style: { fontSize: theme.spacing(1.2) },
         },
         xaxis: {
           type: "category",
-          labels: { show: false },
+          position: "top",
+          labels: { show: true },
           tooltip: { enabled: false },
         },
-        yaxis: { reversed: true },
+        yaxis: { labels: { show: false } },
         states: {
           active: { filter: { type: "none" } },
           hover: { filter: { type: "none" } },

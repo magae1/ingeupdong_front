@@ -60,7 +60,7 @@ const HelloChannelBlock = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={6} p={1}>
+      <Grid item xs={12} sm={6} md={7} p={1}>
         <ChannelPaper>
           <InfoLabel>
             <Home sx={{ mr: 0.5, verticalAlign: "middle" }} />
@@ -109,7 +109,7 @@ const HelloChannelBlock = () => {
           </Stack>
         </ChannelPaper>
       </Grid>
-      <Grid item xs={12} sm={6} p={1}>
+      <Grid item xs={12} sm={6} md={5} p={1}>
         <ChannelPaper>
           <InfoLabel>
             <CalendarMonthTwoTone sx={{ mr: 0.5, verticalAlign: "middle" }} />
