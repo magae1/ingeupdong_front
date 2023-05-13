@@ -86,6 +86,7 @@ const VideoChart = () => {
                   hour: "d일 HH:mm",
                 },
               },
+              tooltip: { enabled: false },
             },
             yaxis: [
               {

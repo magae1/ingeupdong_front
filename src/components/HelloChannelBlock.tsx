@@ -33,7 +33,7 @@ import { mainFetcher } from "../utils/fetchers";
 import ChannelRecordCalendar from "./ChannelRecordCalendar";
 import CountingUpSpan from "./CountingUpSpan";
 
-const CALENDAR_SIZE = 300;
+const CALENDAR_SIZE: number = 270;
 
 const HelloChannelBlock = () => {
   const { channelId } = useParams();

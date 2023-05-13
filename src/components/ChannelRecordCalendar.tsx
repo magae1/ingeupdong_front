@@ -3,12 +3,17 @@ import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material";
 import { deepOrange, grey, orange } from "@mui/material/colors";
 import dayjs from "dayjs";
-import _ from "underscore";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
 import { ICalendar } from "../utils/interfaces";
 
 dayjs.extend(weekOfYear);
+
+interface IData {
+  x: dayjs.Dayjs;
+  y: number;
+}
+
 const paddingDates = (startDate: string, endDate: string) => {
   const s = dayjs(startDate);
   const e = dayjs(endDate);
@@ -16,6 +21,8 @@ const paddingDates = (startDate: string, endDate: string) => {
   const lastDate = e.add(6 - e.day(), "d");
   return { firstDate, lastDate };
 };
+
+const daysChar = ["일", "월", "화", "수", "목", "금", "토"];
 
 const ChannelRecordCalendar = (props: {
   records: ICalendar[];
@@ -32,39 +39,31 @@ const ChannelRecordCalendar = (props: {
     records.forEach((value) => {
       table[value.day] = value.value;
     });
-    const result: number[][] = [[]];
+    const result: IData[][] = [[]];
     for (let k = 0; k < 6; k++) result.push([]);
     let index = 0;
     let currentDate = firstDate.clone();
     while (currentDate.isBefore(startDate)) {
       let i = index % 7;
-      result[i].push(-1);
+      result[i].push({ x: currentDate.clone(), y: -1 });
       currentDate = currentDate.add(1, "d");
       index++;
     }
     do {
       let i = index % 7;
       let curDay = currentDate.format("YYYY-MM-DD");
-      if (curDay in table) result[i].push(table[curDay]);
-      else result[i].push(0);
+      if (curDay in table)
+        result[i].push({ x: currentDate.clone(), y: table[curDay] });
+      else result[i].push({ x: currentDate.clone(), y: 0 });
       currentDate = currentDate.add(1, "d");
       index++;
     } while (!currentDate.isAfter(endDate));
-    return result;
+    return daysChar.map((v, index) => ({ name: v, data: result[index] }));
   }, [records, startDate, endDate]);
-
   return (
     <ReactApexChart
       type={"heatmap"}
-      series={[
-        { name: "토", data: data[6] },
-        { name: "금", data: data[5] },
-        { name: "목", data: data[4] },
-        { name: "수", data: data[3] },
-        { name: "화", data: data[2] },
-        { name: "월", data: data[1] },
-        { name: "일", data: data[0] },
-      ]}
+      series={data}
       options={{
         chart: {
           zoom: { enabled: false },
@@ -114,27 +113,30 @@ const ChannelRecordCalendar = (props: {
           },
         },
         legend: {
-          customLegendItems: ["0개", "1개", "2개", "3+개"],
+          customLegendItems: ["0개", "1개", "2개", "3+"],
           onItemClick: { toggleDataSeries: false },
         },
         theme: { mode: theme.palette.mode },
         stroke: { colors: [theme.palette.divider], width: 2.5 },
-        dataLabels: { enabled: false },
+        dataLabels: {
+          enabled: true,
+          formatter: (val, opts) => {
+            const currentData =
+              data[opts.seriesIndex].data[opts.dataPointIndex].x;
+            if (currentData.date() === 1) return currentData.format("M[월]");
+            return currentData.format("D");
+          },
+          style: { fontSize: theme.spacing(1.2) },
+        },
         xaxis: {
           type: "category",
-          categories: _.range(
-            dayjs(startDate).week(),
-            dayjs(endDate).week() + 1
-          ).map((value) => value),
-          labels: {
-            formatter: (value: string): string | string[] => {
-              return value + "주차";
-            },
-          },
+          labels: { show: false },
+          tooltip: { enabled: false },
         },
+        yaxis: { reversed: true },
         states: {
-          hover: { filter: { type: "none" } },
           active: { filter: { type: "none" } },
+          hover: { filter: { type: "none" } },
         },
         tooltip: { enabled: false },
       }}
