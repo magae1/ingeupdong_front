@@ -9,6 +9,7 @@ import { CenterFlexBox, ErrorTypo } from "./styles";
 import TrendVideoBoard from "./TrendVideoBoard";
 import ScrollToTopButton from "./ScrollToTopButton";
 import LoadingTrendVideoBoard from "./LoadingTrendVideoBoard";
+import ErrorRetry from "./ErrorRetry";
 
 interface Props {
   recordId: string;
@@ -16,7 +17,7 @@ interface Props {
 
 const SIZE = 10;
 const TrendVideoList = ({ recordId }: Props) => {
-  const { data, isLoading, error, size, setSize, isValidating } =
+  const { data, isLoading, error, size, setSize, isValidating, mutate } =
     useSWRInfinite<ITrendingWithPagination>(
       (index, previousPageData) => {
         if (previousPageData && !previousPageData.next) return null;
@@ -44,6 +45,8 @@ const TrendVideoList = ({ recordId }: Props) => {
         .value(),
     [data]
   );
+
+  const retrySWR = useCallback(() => mutate().then(), []);
 
   const loadingBoards = useMemo(() => {
     return _.range(SIZE).map(() => (
@@ -75,7 +78,7 @@ const TrendVideoList = ({ recordId }: Props) => {
     };
   }, [handleInfiniteScroll]);
 
-  if (error) return <ErrorTypo>알 수 없는 오류가 발생했어요.</ErrorTypo>;
+  if (error) return <ErrorRetry onClickRetry={retrySWR} />;
 
   return (
     <Box mb={2}>

@@ -204,15 +204,14 @@ export const RecordsTypo = styled(Typography)(({ theme }) => ({
 
 export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
   display: "flex",
+  aspectRatio: "16 / 9",
+  height: "90px",
   justifyContent: "center",
   backgroundImage: `url(https://img.youtube.com/vi/${className}/0.jpg)`,
   backgroundRepeat: "no-repeat",
   backgroundPositionX: "center",
   backgroundPositionY: "center",
   backgroundSize: "cover",
-  borderBottomRightRadius: theme.spacing(0.5),
-  height: "70px",
-  borderBottomLeftRadius: theme.spacing(0.5),
 }));
 
 export const ChartWrapper = styled(Box)(({ theme }) => ({
@@ -255,3 +254,14 @@ export const ChannelVideoPageButtonsBox = styled(Box)`
   grid-template-columns: 64px 1fr 64px;
   margin-top: auto;
 `;
+
+export const ErrorFlexBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  width: "100%",
+  minHeight: "200px",
+  gap: theme.spacing(1.2),
+}));

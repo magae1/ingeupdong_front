@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import useSWR from "swr";
 import { useLoaderData, useParams } from "react-router";
 import {
@@ -24,7 +24,6 @@ import {
 import {
   ChannelInfos,
   ChannelPaper,
-  ErrorTypo,
   InfoLabel,
   RankDiff,
   SpinnerBox,
@@ -32,15 +31,16 @@ import {
 import { mainFetcher } from "../utils/fetchers";
 import ChannelRecordCalendar from "./ChannelRecordCalendar";
 import CountingUpSpan from "./CountingUpSpan";
+import ErrorRetry from "./ErrorRetry";
 
-const CALENDAR_SIZE: number = 270;
+const CALENDAR_SIZE: number = 300;
 
 const HelloChannelBlock = () => {
   const { channelId } = useParams();
   const { name: channelName, handle: channelHandle } =
     useLoaderData() as IChannelWithLatestVideo;
   const theme = useTheme();
-  const { data, isLoading, isValidating, error } =
+  const { data, isLoading, isValidating, error, mutate } =
     useSWR<ITotalCountWithCalendars>(
       `/channel/${channelId}/count/`,
       mainFetcher,
@@ -49,13 +49,9 @@ const HelloChannelBlock = () => {
         revalidateOnReconnect: false,
       }
     );
+  const retrySWR = useCallback(() => mutate().then(), []);
 
-  if (error)
-    return (
-      <Box width={"100%"} height={"200px"}>
-        <ErrorTypo>알 수 없는 에러가 발생했습니다.</ErrorTypo>
-      </Box>
-    );
+  if (error) return <ErrorRetry onClickRetry={retrySWR} />;
   const isStillLoading = !data || isValidating || isLoading;
 
   return (
@@ -116,7 +112,7 @@ const HelloChannelBlock = () => {
             최근 인급동 현황
           </InfoLabel>
           {isStillLoading ? (
-            <SpinnerBox sx={{ height: `${CALENDAR_SIZE}px` }}>
+            <SpinnerBox sx={{ height: `${CALENDAR_SIZE + 15}px` }}>
               <CircularProgress />
             </SpinnerBox>
           ) : (

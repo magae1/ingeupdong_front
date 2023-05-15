@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material";
-import { deepOrange, grey, orange } from "@mui/material/colors";
+import { deepOrange, grey, orange, purple } from "@mui/material/colors";
 import dayjs from "dayjs";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 
@@ -35,7 +35,6 @@ const ChannelRecordCalendar = (props: {
 }) => {
   const theme = useTheme();
   const { records, startDate, endDate, height } = props;
-
   const series = useMemo(() => {
     const { firstDate, fw, lastDate, lw } = paddingDates(startDate, endDate);
     const table: { [key: string]: number } = {};
@@ -71,6 +70,27 @@ const ChannelRecordCalendar = (props: {
       type={"heatmap"}
       series={series}
       options={{
+        annotations: {
+          points: [
+            {
+              x: daysChar[dayjs().day()],
+              y: -1,
+              yAxisIndex: 0,
+              label: {
+                orientation: "horizontal",
+                offsetY: 32,
+                borderWidth: 0,
+                style: {
+                  background: purple[600],
+                  color: "#fff",
+                  fontSize: theme.spacing(1.5),
+                  fontWeight: "bold",
+                },
+                text: "오늘",
+              },
+            },
+          ],
+        },
         chart: {
           zoom: { enabled: false },
           toolbar: { show: false },
@@ -130,11 +150,13 @@ const ChannelRecordCalendar = (props: {
             const currentData =
               series[opts.seriesIndex].data[opts.dataPointIndex].z;
             if (currentData.date() === 1) return currentData.format("M[월]");
-            if (currentData.date() % 3 === 0)
-              return currentData.format("D[일]");
+            if (currentData.date() % 5 === 0) return currentData.format("D");
             return "";
           },
-          style: { fontSize: theme.spacing(1.2) },
+          style: {
+            fontSize: theme.spacing(1.5),
+            fontWeight: 100,
+          },
         },
         xaxis: {
           type: "category",

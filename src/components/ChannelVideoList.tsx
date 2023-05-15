@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import _ from "underscore";
 import { Stack, Box, Button, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -9,11 +9,12 @@ import ChannelVideoBoard from "./ChannelVideoBoard";
 import { ChannelVideoPageButtonsBox, ErrorTypo } from "./styles";
 import { mainFetcher } from "../utils/fetchers";
 import LoadingChannelVideoBoard from "./LoadingChannelVideoBoard";
+import ErrorRetry from "./ErrorRetry";
 
 const ChannelVideoList = (props: { channelId: number }) => {
   const { channelId } = props;
   const [currentPage, setPage] = useState(1);
-  const { data, isLoading, isValidating, error } =
+  const { data, isLoading, isValidating, error, mutate } =
     useSWR<IChannelVideoWithPagination>(
       `/channel/${channelId}/videos/?page=${currentPage}`,
       mainFetcher,
@@ -25,7 +26,7 @@ const ChannelVideoList = (props: { channelId: number }) => {
 
   const videos = useMemo(() => {
     if (!data || isLoading || isValidating) {
-      return _.range(3).map(() => (
+      return _.range(5).map(() => (
         <LoadingChannelVideoBoard key={_.uniqueId("loading-channel-video")} />
       ));
     } else {
@@ -37,10 +38,12 @@ const ChannelVideoList = (props: { channelId: number }) => {
     }
   }, [data]);
 
-  if (error) return <ErrorTypo>알 수 없는 오류가 발생했어요.</ErrorTypo>;
+  const retryDataLoad = useCallback(() => mutate().then(), []);
+
+  if (error) return <ErrorRetry onClickRetry={retryDataLoad} />;
 
   return (
-    <Box minHeight={440} display={"flex"} flexDirection={"column"}>
+    <Box minHeight={500} display={"flex"} flexDirection={"column"}>
       <Stack spacing={1.5}>{videos}</Stack>
       <ChannelVideoPageButtonsBox pt={1} pb={0.5}>
         <Button

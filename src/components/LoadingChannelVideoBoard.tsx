@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -13,15 +14,19 @@ const LoadingChannelVideoBoard = () => {
 
   return (
     <Card sx={{ bgcolor: theme.palette.card.main }} elevation={2}>
-      <CardActionArea>
-        <CardContent sx={{ minHeight: "90px" }}>
+      <Box display={"flex"}>
+        <Skeleton
+          variant={"rectangular"}
+          height={90}
+          sx={{ aspectRatio: "16 / 9" }}
+        />
+        <CardContent sx={{ width: "100%" }}>
           <Stack>
-            <Skeleton />
-            <Skeleton />
+            <Skeleton variant={"text"} />
+            <Skeleton variant={"text"} />
           </Stack>
         </CardContent>
-      </CardActionArea>
-      <Skeleton variant={"rectangular"} height={70} />
+      </Box>
     </Card>
   );
 };

@@ -23,6 +23,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           secondary: {
             main: "#FE5F00",
+            contrastText: "#000",
           },
           divider: grey[300],
           background: {
@@ -31,6 +32,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           card: {
             main: "#f1d9d1",
+            dark: "#e2cac2",
           },
           text: {
             primary: grey[900],
@@ -47,6 +49,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           secondary: {
             main: "#FE5F00",
+            contrastText: "#fff",
           },
           divider: grey[900],
           background: {
@@ -55,6 +58,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           card: {
             main: "rgb(63,18,18)",
+            dark: "rgb(53,8,8)",
           },
           text: {
             primary: "#fff",
