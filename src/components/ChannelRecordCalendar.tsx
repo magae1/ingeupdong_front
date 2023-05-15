@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@mui/material";
 import { deepOrange, grey, orange, purple } from "@mui/material/colors";

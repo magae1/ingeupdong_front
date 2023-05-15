@@ -214,12 +214,12 @@ export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
   backgroundSize: "cover",
 }));
 
-export const ChartWrapper = styled(Box)(({ theme }) => ({
+export const ChartWrapper = styled(Box)({
   width: "inherit",
   height: "100%",
   borderRadius: "15px",
   padding: "1.5px 0px",
-}));
+});
 
 export const ChannelInfos = styled(Box)`
   display: flex;

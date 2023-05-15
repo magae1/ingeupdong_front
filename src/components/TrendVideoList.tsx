@@ -5,7 +5,7 @@ import { Box, Divider, Stack } from "@mui/material";
 
 import { ITrendingWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
-import { CenterFlexBox, ErrorTypo } from "./styles";
+import { CenterFlexBox } from "./styles";
 import TrendVideoBoard from "./TrendVideoBoard";
 import ScrollToTopButton from "./ScrollToTopButton";
 import LoadingTrendVideoBoard from "./LoadingTrendVideoBoard";

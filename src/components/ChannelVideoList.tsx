@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import { IChannelVideoWithPagination } from "../utils/interfaces";
 import ChannelVideoBoard from "./ChannelVideoBoard";
-import { ChannelVideoPageButtonsBox, ErrorTypo } from "./styles";
+import { ChannelVideoPageButtonsBox } from "./styles";
 import { mainFetcher } from "../utils/fetchers";
 import LoadingChannelVideoBoard from "./LoadingChannelVideoBoard";
 import ErrorRetry from "./ErrorRetry";

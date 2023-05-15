@@ -2,7 +2,6 @@ import React, { memo } from "react";
 import {
   Box,
   Card,
-  CardActionArea,
   CardContent,
   Skeleton,
   Stack,

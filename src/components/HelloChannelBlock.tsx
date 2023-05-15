@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import useSWR from "swr";
 import { useLoaderData, useParams } from "react-router";
 import {
-  Box,
   CircularProgress,
   Grid,
   Link,
