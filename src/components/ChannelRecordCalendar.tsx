@@ -94,7 +94,8 @@ const ChannelRecordCalendar = (props: {
         chart: {
           zoom: { enabled: false },
           toolbar: { show: false },
-          background: theme.palette.background.default,
+          background: theme.palette.background.paper,
+          animations: { enabled: false },
         },
         plotOptions: {
           heatmap: {

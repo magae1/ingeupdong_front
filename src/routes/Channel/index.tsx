@@ -33,16 +33,14 @@ const Channel = () => {
           {name}
         </ChannelNameTypo>
       </ChannelContainer>
-      <Box sx={{ width: "100%" }} my={1}>
-        <Container maxWidth={"md"}>
-          <Stack mb={2}>
-            <HelloChannelBlock />
-            <VideosWithChartBlock
-              channelInfo={{ id: id, name: name, handle: handle }}
-            />
-          </Stack>
-        </Container>
-      </Box>
+      <Container maxWidth={"md"} disableGutters>
+        <Stack mb={2}>
+          <HelloChannelBlock />
+          <VideosWithChartBlock
+            channelInfo={{ id: id, name: name, handle: handle }}
+          />
+        </Stack>
+      </Container>
     </>
   );
 };

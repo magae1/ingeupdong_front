@@ -62,9 +62,9 @@ const VideoChart = () => {
                 label: {
                   borderColor: indigo[400],
                   style: {
-                    color: "#fff",
                     background: indigo[400],
                     fontWeight: 700,
+                    color: "#fff",
                   },
                   orientation: "horizontal",
                   offsetY: value.rank < 25 ? 240 : -3,
@@ -90,16 +90,8 @@ const VideoChart = () => {
             },
             yaxis: [
               {
-                title: {
-                  text: "조회수",
-                  style: {
-                    color: theme.palette.mode === "light" ? "#333" : "#ddd",
-                  },
-                },
                 labels: {
-                  style: {
-                    colors: theme.palette.mode === "light" ? "#000" : "#fff",
-                  },
+                  show: true,
                   formatter: (val: number | null): string | string[] => {
                     if (val) return shortenNum(val).toString();
                     return [];
@@ -110,9 +102,6 @@ const VideoChart = () => {
                 show: false,
                 opposite: true,
                 reversed: true,
-                title: {
-                  text: "순위",
-                },
                 min:
                   reformattedData.rankRange[0] === 1
                     ? 1
@@ -121,14 +110,10 @@ const VideoChart = () => {
                   reformattedData.rankRange[1] === 50
                     ? 50
                     : reformattedData.rankRange[1] + 1,
-                labels: {
-                  style: {
-                    colors: theme.palette.mode === "light" ? "#000" : "#fff",
-                  },
-                },
               },
             ],
             chart: {
+              background: theme.palette.background.paper,
               zoom: { enabled: false },
               toolbar: { show: false },
               defaultLocale: "ko",
@@ -183,6 +168,7 @@ const VideoChart = () => {
                 ],
               },
             },
+            theme: { mode: theme.palette.mode },
             stroke: {
               curve: "straight",
               width: [1, 3],
@@ -199,7 +185,7 @@ const VideoChart = () => {
               theme.palette.primary.light,
               theme.palette.secondary.light,
             ],
-            legend: { show: false },
+            legend: { show: true },
             tooltip: {
               enabled: true,
               shared: true,
@@ -226,7 +212,7 @@ const VideoChart = () => {
             },
           }}
           series={reformattedData.series}
-          height={"300px"}
+          height={300}
         />
       ) : (
         <SpinnerBox sx={{ height: "300px" }}>

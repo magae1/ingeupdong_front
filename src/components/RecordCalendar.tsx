@@ -17,6 +17,8 @@ import { IRecording } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
 import { CalendarModalControl } from "./CalendarModal";
 import { recordUrlJs } from "../utils/dayjs";
+import { useTheme } from "@mui/material";
+import { red } from "@mui/material/colors";
 
 interface Props {
   initDate: Dayjs;
@@ -25,6 +27,7 @@ interface Props {
 const RecordedDay = (
   props: PickersDayProps<Dayjs> & { data?: IRecording[] }
 ) => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const { data = [], day, outsideCurrentMonth, ...other } = props;
   const dayForm = day.format("YYYY-MM-DD");
@@ -40,6 +43,18 @@ const RecordedDay = (
       day={day}
       disabled={!isEnabled}
       onClick={() => navigate(`/${recordUrlJs(data[dataIndex].record_at)}`)}
+      sx={{
+        backgroundColor: theme.palette.divider,
+        fontWeight: "bold",
+        "&.Mui-disabled": {
+          fontSize: theme.spacing(1),
+          backgroundColor: "rgba(0,0,0,0)",
+        },
+        "&.Mui-selected": {
+          fontWeight: "bold",
+          color: theme.palette.secondary.contrastText,
+        },
+      }}
     />
   );
 };

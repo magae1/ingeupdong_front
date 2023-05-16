@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Card,
   Container,
   IconButton,
@@ -202,18 +204,6 @@ export const RecordsTypo = styled(Typography)(({ theme }) => ({
   },
 })) as typeof Typography;
 
-export const ChannelVideoThumbnail = styled(Box)(({ theme, className }) => ({
-  display: "flex",
-  aspectRatio: "16 / 9",
-  height: "90px",
-  justifyContent: "center",
-  backgroundImage: `url(https://img.youtube.com/vi/${className}/0.jpg)`,
-  backgroundRepeat: "no-repeat",
-  backgroundPositionX: "center",
-  backgroundPositionY: "center",
-  backgroundSize: "cover",
-}));
-
 export const ChartWrapper = styled(Box)({
   width: "inherit",
   height: "100%",
@@ -264,4 +254,22 @@ export const ErrorFlexBox = styled(Box)(({ theme }) => ({
   width: "100%",
   minHeight: "200px",
   gap: theme.spacing(1.2),
+}));
+
+export const VideoCardButtonGroup = styled(ButtonGroup)(({ theme }) => ({
+  borderBottom: "none",
+  borderTop: `1px solid ${grey[theme.palette.mode === "light" ? 400 : 900]}`,
+  boxShadow: "none",
+  ".MuiButtonGroup-grouped": {
+    borderTopLeftRadius: "0px",
+    borderTopRightRadius: "0px",
+    border: "none",
+    backgroundColor: theme.palette.card.dark,
+    color: grey[600],
+    "&:hover, &.Mui-focusVisible": {
+      border: "none",
+      backgroundColor: theme.palette.card.light,
+      color: theme.palette.secondary.contrastText,
+    },
+  },
 }));
