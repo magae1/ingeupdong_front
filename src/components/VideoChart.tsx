@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { CircularProgress, useTheme } from "@mui/material";
+import { CircularProgress, useMediaQuery, useTheme } from "@mui/material";
 import { indigo } from "@mui/material/colors";
 import useSWR from "swr";
 import ReactApexChart from "react-apexcharts";
@@ -19,6 +19,7 @@ const VideoChart = () => {
     !currentVideo ? null : `/video/${currentVideo.videoId}/graphed/`,
     mainFetcher
   );
+  const isMobileSize = useMediaQuery(theme.breakpoints.down("sm"));
   const reformattedData = useMemo(() => {
     const viewsData: { x: string; y: number }[] = [];
     const rankData: { x: string; y: number }[] = [];
@@ -113,7 +114,9 @@ const VideoChart = () => {
               },
             ],
             chart: {
-              background: theme.palette.background.paper,
+              background: !isMobileSize
+                ? theme.palette.background.paper
+                : theme.palette.divider,
               zoom: { enabled: false },
               toolbar: { show: false },
               defaultLocale: "ko",

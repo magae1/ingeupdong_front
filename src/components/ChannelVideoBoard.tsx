@@ -74,7 +74,7 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
               <CardMedia
                 sx={{
                   aspectRatio: "16 / 9",
-                  height: "90px",
+                  height: "100%",
                 }}
                 image={`https://img.youtube.com/vi/${tag}/0.jpg`}
               />
@@ -100,7 +100,7 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
           )}
         </AnimatedCard>
         {isMobileSize && isClicked && (
-          <Paper>
+          <Paper sx={{ background: theme.palette.divider }}>
             <VideoChart />
           </Paper>
         )}

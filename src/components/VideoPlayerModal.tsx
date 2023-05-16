@@ -88,18 +88,18 @@ const VideoPlayerModal = forwardRef(
           <CardContent>
             {!video || isValidating || isLoading ? (
               <Grid container width={1} spacing={0.5}>
-                <Grid item xs={6}>
-                  <Skeleton height={25} variant="rectangular" />
+                <Grid item xs={5}>
+                  <Skeleton height={25} variant="text" />
                 </Grid>
                 <Grid item xs={2}>
-                  <Skeleton height={25} variant="rectangular" />
+                  <Skeleton height={25} variant="text" />
                 </Grid>
                 <Grid item xs={12}>
-                  <Skeleton height={25} variant="rectangular" />
+                  <Skeleton height={25} variant="text" />
                 </Grid>
               </Grid>
             ) : (
-              <Stack spacing={0.5} minHeight={"80px"}>
+              <Stack spacing={0.5}>
                 <Box>
                   <RecordsTypo component={"span"}>
                     {recordsTag(video.records)}
