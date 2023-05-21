@@ -273,3 +273,13 @@ export const VideoCardButtonGroup = styled(ButtonGroup)(({ theme }) => ({
     },
   },
 }));
+
+export const VideoModalFlexBox = styled(Box)(({ theme }) => {
+  if (window.innerHeight < window.innerWidth) {
+    return {
+      display: "grid",
+      gridTemplateColumns: "3fr 1fr",
+    };
+  }
+  return {};
+});

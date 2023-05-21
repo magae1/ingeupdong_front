@@ -18,7 +18,6 @@ import { mainFetcher } from "../utils/fetchers";
 import { CalendarModalControl } from "./CalendarModal";
 import { recordUrlJs } from "../utils/dayjs";
 import { useTheme } from "@mui/material";
-import { red } from "@mui/material/colors";
 
 interface Props {
   initDate: Dayjs;

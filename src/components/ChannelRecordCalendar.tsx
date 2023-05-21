@@ -130,7 +130,7 @@ const ChannelRecordCalendar = (props: {
                 {
                   from: -1,
                   to: -1,
-                  color: theme.palette.divider,
+                  color: theme.palette.background.paper,
                   name: "X",
                 },
               ],
@@ -157,6 +157,7 @@ const ChannelRecordCalendar = (props: {
           style: {
             fontSize: theme.spacing(1.5),
             fontWeight: 100,
+            colors: ["#000"],
           },
         },
         xaxis: {
