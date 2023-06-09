@@ -40,7 +40,7 @@ export const shortenNum = (num: number) => {
   ];
   while (true) {
     let tmp = Math.floor(num / set[exp].offset);
-    if (exp > set.length || tmp > 0) {
+    if (exp >= set.length - 1 || tmp > 0) {
       num = tmp;
       break;
     }
