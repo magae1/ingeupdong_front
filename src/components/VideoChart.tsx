@@ -68,7 +68,7 @@ const VideoChart = () => {
                     color: "#fff",
                   },
                   orientation: "horizontal",
-                  offsetY: value.rank < 25 ? 240 : -3,
+                  offsetY: value.rank < 25 ? 213 : -2,
                   text: "재진입!",
                 },
               })),
@@ -87,6 +87,7 @@ const VideoChart = () => {
                   hour: "d일 HH:mm",
                 },
               },
+              axisTicks: { color: "#787878" },
               tooltip: { enabled: false },
             },
             yaxis: [
@@ -113,6 +114,12 @@ const VideoChart = () => {
                     : reformattedData.rankRange[1] + 1,
               },
             ],
+            grid: {
+              borderColor:
+                theme.palette.mode === "light"
+                  ? "rgba(30,30,30,0.2)"
+                  : "rgba(225,225,225,0.5)",
+            },
             chart: {
               background: !isMobileSize
                 ? theme.palette.background.paper

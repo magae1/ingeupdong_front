@@ -1,20 +1,8 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
-import { Box, Fade } from "@mui/material";
+import { Box, Fade, Stack } from "@mui/material";
 
 import ModalBackGround from "./ModalBackGround";
-import SearchBar from "./SearchBar";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "28px",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  bgcolor: "background.default",
-  boxShadow: 24,
-  py: "7px",
-  px: 2,
-};
+import { SearchModal } from "./styles";
 
 interface Props {
   open: boolean;
@@ -25,9 +13,12 @@ const SearchBarModal = ({ open, setOpen }: Props) => {
   return (
     <ModalBackGround open={open} closeModal={closeModal}>
       <Fade in={open}>
-        <Box sx={style}>
-          <SearchBar closeModal={closeModal} autoFocus={true} />
-        </Box>
+        <SearchModal>
+          <Stack>
+            <Box>123</Box>
+            <Box>456</Box>
+          </Stack>
+        </SearchModal>
       </Fade>
     </ModalBackGround>
   );

@@ -8,7 +8,6 @@ import {
   Toolbar,
   useTheme,
   Stack,
-  useMediaQuery,
 } from "@mui/material";
 import { Brightness7, Brightness4 } from "@mui/icons-material";
 import _ from "underscore";
@@ -22,14 +21,12 @@ import {
   UnstyledNavLink,
 } from "./style";
 import Footer from "../../components/Footer";
-import SearchBar from "../../components/SearchBar";
 import { DefaultSearchIcon } from "../../components/styles";
 import SearchBarModal from "../../components/SearchBarModal";
 
 const Layout = () => {
   const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
-  const isMobileSize = useMediaQuery(theme.breakpoints.down("sm"));
   const [openSearchModal, setOpenSearchModal] = useState(false);
 
   return (
@@ -62,11 +59,7 @@ const Layout = () => {
                 <Brightness7 />
               )}
             </IconButton>
-            {isMobileSize ? (
-              <DefaultSearchIcon onClick={() => setOpenSearchModal(true)} />
-            ) : (
-              <SearchBar />
-            )}
+            <DefaultSearchIcon onClick={() => setOpenSearchModal(true)} />
           </Stack>
         </Toolbar>
       </LayoutAppBar>

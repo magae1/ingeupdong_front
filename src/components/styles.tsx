@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   ButtonGroup,
   Card,
   Container,
@@ -17,6 +16,43 @@ import {
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { Search } from "@mui/icons-material";
+
+export const ChannelLinkSpan = styled(Box)(({ theme }) => {
+  let strong = theme.palette.mode === "light" ? 100 : 170;
+  return {
+    display: "inline-flex",
+    width: "fit-content",
+    borderRadius: theme.spacing(0.5),
+    backgroundColor: `rgba(${strong}, ${strong}, ${strong}, 0.2)`,
+    paddingRight: theme.spacing(1),
+    paddingLeft: theme.spacing(0.5),
+    height: theme.spacing(3),
+    alignItems: "center",
+    gap: theme.spacing(0.5),
+    color: theme.palette.text.secondary,
+    textDecoration: "none",
+    fontSize: "0.8rem",
+    "&:hover": {
+      backgroundColor: `rgba(${strong}, ${strong}, ${strong}, 0.6)`,
+    },
+  };
+});
+
+export const SearchModal = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "30vh",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "600px",
+  height: "400px",
+  borderRadius: theme.spacing(0.5),
+  backgroundColor: theme.palette.background.default,
+  [theme.breakpoints.down("sm")]: {
+    height: `calc(100vh - ${theme.spacing(10)})`,
+    width: "100%",
+    top: `calc(50vh - ${theme.spacing(5)})`,
+  },
+})) as typeof Box;
 
 export const RankState = styled(Typography)(({ theme }) => ({
   textAlign: "center",
@@ -160,25 +196,6 @@ export const ModalBox = styled(Box)(({ theme }) => ({
   borderRadius: theme.spacing(2),
 }));
 
-export const InputFormPaper = styled(Paper)(({ theme }) => ({
-  paddingLeft: "10px",
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.up("sm")]: {
-    width: "300px",
-  },
-  [theme.breakpoints.up("md")]: {
-    width: "400px",
-  },
-  [theme.breakpoints.up("lg")]: {
-    width: "500px",
-  },
-  borderRadius: "24px",
-  background: "rgba(0,0,0,0)",
-  color: "inherit",
-  border: `1.2px solid rgba(255,255,255,0.3)`,
-})) as typeof Paper;
-
 export const DefaultSearchIcon = styled(({ ...props }: IconButtonProps) => (
   <IconButton {...props} type={"button"} aria-label={"검색"}>
     <Search />
@@ -186,15 +203,6 @@ export const DefaultSearchIcon = styled(({ ...props }: IconButtonProps) => (
 ))`
   padding: 8px;
   color: inherit;
-`;
-
-export const SearchInputBase = styled(InputBase)`
-  flex: 1;
-  color: inherit;
-  margin-left: 8px;
-  &:focus {
-    background: rgba(255, 255, 255, 1);
-  }
 `;
 
 export const RecordsTypo = styled(Typography)(({ theme }) => ({
@@ -274,8 +282,8 @@ export const VideoCardButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   },
 }));
 
-export const VideoModalFlexBox = styled(Box)(({ theme }) => {
-  if (window.innerHeight < window.innerWidth) {
+export const VideoModalFlexBox = styled(Box)(({ theme, className }) => {
+  if (className === "horizontal") {
     return {
       display: "grid",
       gridTemplateColumns: "3fr 1fr",

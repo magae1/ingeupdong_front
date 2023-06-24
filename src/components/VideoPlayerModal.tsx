@@ -10,6 +10,7 @@ import {
   Grid,
   Box,
   useTheme,
+  Typography,
 } from "@mui/material";
 import ReactPlayer from "react-player";
 import useSWR from "swr";
@@ -57,7 +58,8 @@ interface Props {
 const VideoPlayerModal = forwardRef(
   ({ closeModal, videoId }: Props, ref: Ref<HTMLDivElement>) => {
     const theme = useTheme();
-
+    const position: string =
+      window.innerHeight > window.innerWidth ? "vertical" : "horizontal";
     const {
       data: video,
       isLoading,
@@ -72,7 +74,7 @@ const VideoPlayerModal = forwardRef(
     return (
       <ModalContainer maxWidth={"lg"} ref={ref}>
         <Card sx={{ bgcolor: theme.palette.card.main }}>
-          <VideoModalFlexBox>
+          <VideoModalFlexBox className={position}>
             <CardMedia style={{ aspectRatio: 16 / 9 }}>
               {!video || isValidating || isLoading ? (
                 <Skeleton
@@ -116,7 +118,17 @@ const VideoPlayerModal = forwardRef(
                         channelId={video.channel.id}
                       />
                     </Box>
-                    <VideoTitleTypo>{video.title}</VideoTitleTypo>
+                    {position === "vertical" ? (
+                      <VideoTitleTypo className={position}>
+                        {video.title}
+                      </VideoTitleTypo>
+                    ) : (
+                      <Typography
+                        sx={{ fontWeight: "500", lineHeight: "1.25rem" }}
+                      >
+                        {video.title}
+                      </Typography>
+                    )}
                   </Stack>
                 )}
               </CardContent>

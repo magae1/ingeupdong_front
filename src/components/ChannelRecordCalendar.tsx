@@ -100,7 +100,7 @@ const ChannelRecordCalendar = (props: {
         plotOptions: {
           heatmap: {
             enableShades: false,
-            radius: 0,
+            radius: 3,
             colorScale: {
               ranges: [
                 {
@@ -144,7 +144,7 @@ const ChannelRecordCalendar = (props: {
           onItemClick: { toggleDataSeries: false },
         },
         theme: { mode: theme.palette.mode },
-        stroke: { colors: [theme.palette.divider], width: 2.5 },
+        stroke: { colors: [theme.palette.background.paper], width: 2.5 },
         dataLabels: {
           enabled: true,
           formatter: (val, opts) => {
