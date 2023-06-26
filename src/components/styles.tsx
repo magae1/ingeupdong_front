@@ -143,8 +143,9 @@ export const CoverBox = styled(Box)(({ theme, className }) => ({
   backgroundPositionY: "center",
   backgroundSize: "cover",
   borderRadius: theme.spacing(2),
+  aspectRatio: "16 / 9",
   [theme.breakpoints.down("sm")]: {
-    height: "200px",
+    weight: "100%",
   },
   [theme.breakpoints.up("sm")]: {
     height: "100%",

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import _ from "underscore";
 import useSWRInfinite from "swr/infinite";
-import { Box, Divider, Stack } from "@mui/material";
+import { Box, Divider, Stack, useMediaQuery, useTheme } from "@mui/material";
 
 import { ITrendingWithPagination } from "../utils/interfaces";
 import { mainFetcher } from "../utils/fetchers";
@@ -15,13 +15,21 @@ interface Props {
   recordId: string;
 }
 
-const SIZE = 10;
 const TrendVideoList = ({ recordId }: Props) => {
+  const theme = useTheme();
+  const isMobileSize = useMediaQuery(theme.breakpoints.down("sm"));
+  const boardSize = isMobileSize ? 380 : 170;
+  const loadCount = Math.ceil(window.innerHeight / boardSize);
   const { data, isLoading, error, size, setSize, isValidating, mutate } =
     useSWRInfinite<ITrendingWithPagination>(
       (index, previousPageData) => {
-        if (previousPageData && !previousPageData.next) return null;
-        return `/trending/${recordId}/?offset=${index * SIZE}&size=${SIZE}`;
+        let offset = "0";
+        if (previousPageData) {
+          if (!previousPageData.next) return null;
+          offset = previousPageData?.next.match(/offset=([0-9])*/i)[0];
+          offset = offset.slice(7, offset.length);
+        }
+        return `/trending/${recordId}/?offset=${offset}&size=${loadCount}`;
       },
       mainFetcher,
       {
@@ -49,7 +57,7 @@ const TrendVideoList = ({ recordId }: Props) => {
   const retrySWR = useCallback(() => mutate().then(), []);
 
   const loadingBoards = useMemo(() => {
-    return _.range(SIZE).map(() => (
+    return _.range(loadCount).map(() => (
       <LoadingTrendVideoBoard key={_.uniqueId("loading-trend-video")} />
     ));
   }, []);
@@ -57,15 +65,12 @@ const TrendVideoList = ({ recordId }: Props) => {
   const handleInfiniteScroll = useCallback(
     _.throttle(() => {
       if (isLoading) return;
-      let footerSize =
-        document.getElementsByTagName("footer").item(0)?.offsetHeight ?? 200;
-      let scrollBarSize = window.innerHeight;
       let scrollBarTop = document.documentElement.scrollTop;
-      let scrollBarBottom = scrollBarTop + scrollBarSize;
       let pageHeight = document.documentElement.offsetHeight;
-      if (scrollBarBottom > pageHeight - 3 * footerSize) {
+      if (scrollBarTop > pageHeight / 2) {
         if (!isReachingEnd && !isRefreshing && !isLoadingMore) {
           setSize((_size) => _size + 1).then();
+          console.log(scrollBarTop, pageHeight);
         }
       }
     }, 300),
