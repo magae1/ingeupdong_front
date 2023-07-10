@@ -85,7 +85,6 @@ const VideosWithChartBlock = (props: {
             </ChannelPaper>
           </Grid>
         )}
-
         <Grid item xs={12} sm={6.5} p={1}>
           <ChannelPaper>
             <InfoLabel>
