@@ -1,19 +1,17 @@
 import React from "react";
 import { red } from "@mui/material/colors";
 import { YouTube } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { ChannelLinkSpan } from "./styles";
+
+import { ChannelLinkSpan, LinkEllipsis } from "./styles";
 
 const ChannelChip = (props: { channelName: string; channelId: number }) => {
   const { channelName, channelId } = props;
 
   return (
-    <Link to={`/channel/${channelId}`} style={{ width: "fit-content" }}>
-      <ChannelLinkSpan>
-        <YouTube style={{ color: red[600] }} />
-        {channelName}
-      </ChannelLinkSpan>
-    </Link>
+    <ChannelLinkSpan>
+      <YouTube style={{ color: red[600] }} />
+      <LinkEllipsis to={`/channel/${channelId}`}>{channelName}</LinkEllipsis>
+    </ChannelLinkSpan>
   );
 };
 

@@ -30,7 +30,7 @@ const VideoChart = () => {
     video_data?.forEach((value) => {
       if (prevDay) {
         const prev = dayjs(prevDay);
-        if (prev.diff(value.day, "hour") < -12) {
+        if (prev.diff(value.day, "hour") < -22) {
           annotationDate.push({ date: value.day, rank: value.rank });
         }
       }
@@ -68,6 +68,7 @@ const VideoChart = () => {
                     color: "#fff",
                   },
                   orientation: "horizontal",
+                  offsetX: -15,
                   offsetY: value.rank < 25 ? 213 : -2,
                   text: "재진입!",
                 },

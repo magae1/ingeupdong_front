@@ -65,15 +65,16 @@ const TrendVideoList = ({ recordId }: Props) => {
   const handleInfiniteScroll = useCallback(
     _.throttle(() => {
       if (isLoading) return;
+      let scrollBarSize = window.innerHeight;
       let scrollBarTop = document.documentElement.scrollTop;
+      let scrollBarBottom = scrollBarTop + scrollBarSize;
       let pageHeight = document.documentElement.offsetHeight;
-      if (scrollBarTop > pageHeight / 2) {
+      if (scrollBarBottom > pageHeight / 2) {
         if (!isReachingEnd && !isRefreshing && !isLoadingMore) {
           setSize((_size) => _size + 1).then();
-          console.log(scrollBarTop, pageHeight);
         }
       }
-    }, 300),
+    }, 500),
     [isRefreshing, isReachingEnd, isLoadingMore]
   );
   useEffect(() => {

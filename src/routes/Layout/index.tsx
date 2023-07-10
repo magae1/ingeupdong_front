@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Outlet } from "react-router";
 import { ScrollRestoration } from "react-router-dom";
 import {
@@ -8,8 +8,9 @@ import {
   Toolbar,
   useTheme,
   Stack,
+  Button,
 } from "@mui/material";
-import { Brightness7, Brightness4 } from "@mui/icons-material";
+import { Brightness7, Brightness4, Search } from "@mui/icons-material";
 import _ from "underscore";
 
 import { ColorModeContext } from "../../index";
@@ -21,17 +22,26 @@ import {
   UnstyledNavLink,
 } from "./style";
 import Footer from "../../components/Footer";
-import { DefaultSearchIcon } from "../../components/styles";
-import SearchBarModal from "../../components/SearchBarModal";
+import SearchModal from "../../components/SearchModal";
 
 const Layout = () => {
   const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
   const [openSearchModal, setOpenSearchModal] = useState(false);
+  const ButtonStyle = useMemo(
+    () => ({
+      borderWidth: "1px",
+      borderColor: "#7a0008",
+      borderStyle: "solid",
+      color: "inherit",
+      borderRadius: "4px",
+    }),
+    []
+  );
 
   return (
     <>
-      <LayoutAppBar color={"primary"}>
+      <LayoutAppBar>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <UnstyledNavLink to={"/"}>
             <TitleGrid>
@@ -52,14 +62,20 @@ const Layout = () => {
             </TitleGrid>
           </UnstyledNavLink>
           <Stack direction={"row-reverse"} spacing={1}>
-            <IconButton onClick={colorMode.toggleMode} color="inherit">
+            <IconButton onClick={colorMode.toggleMode} sx={ButtonStyle}>
               {theme.palette.mode === "dark" ? (
                 <Brightness4 />
               ) : (
                 <Brightness7 />
               )}
             </IconButton>
-            <DefaultSearchIcon onClick={() => setOpenSearchModal(true)} />
+            <Button
+              onClick={() => setOpenSearchModal(true)}
+              startIcon={<Search />}
+              sx={ButtonStyle}
+            >
+              채널 검색
+            </Button>
           </Stack>
         </Toolbar>
       </LayoutAppBar>
@@ -69,7 +85,7 @@ const Layout = () => {
       </Box>
       <Footer />
       <ScrollRestoration getKey={(location, matches) => location.key} />
-      <SearchBarModal open={openSearchModal} setOpen={setOpenSearchModal} />
+      <SearchModal open={openSearchModal} setOpen={setOpenSearchModal} />
     </>
   );
 };

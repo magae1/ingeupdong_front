@@ -109,7 +109,7 @@ const VideoPlayerModal = forwardRef(
                   </Grid>
                 ) : (
                   <Stack spacing={0.5}>
-                    <Box>
+                    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                       <RecordsTypo component={"span"}>
                         {recordsTag(video.records)}
                       </RecordsTypo>

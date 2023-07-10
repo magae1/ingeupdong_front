@@ -2,6 +2,8 @@ import {
   Box,
   ButtonGroup,
   Card,
+  CardContent,
+  CardContentProps,
   Container,
   IconButton,
   IconButtonProps,
@@ -16,6 +18,26 @@ import {
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import { Search } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { animated } from "@react-spring/web";
+
+export const SearchInputBase = styled(InputBase)(({ theme }) => ({
+  height: theme.spacing(7),
+  width: "100%",
+}));
+
+export const SearchResult = styled(({ ...props }: CardContentProps) => (
+  <Card elevation={0}>
+    <CardContent {...props} />
+  </Card>
+))(({ theme }) => ({
+  border: `1px solid ${theme.palette.divider}`,
+  cursor: "pointer",
+  fontSize: "1.15em",
+  "&:hover": {
+    backgroundColor: theme.palette.divider,
+  },
+}));
 
 export const ChannelLinkSpan = styled(Box)(({ theme }) => {
   let strong = theme.palette.mode === "light" ? 100 : 170;
@@ -30,17 +52,30 @@ export const ChannelLinkSpan = styled(Box)(({ theme }) => {
     alignItems: "center",
     gap: theme.spacing(0.5),
     color: theme.palette.text.secondary,
-    textDecoration: "none",
     fontSize: "0.8rem",
-    "&:hover": {
-      backgroundColor: `rgba(${strong}, ${strong}, ${strong}, 0.6)`,
+    "& a": {
+      color: "inherit",
+      marginTop: "5px",
+      height: theme.spacing(3),
+      "&:hover": {
+        color: theme.palette.text.primary,
+      },
     },
   };
 });
 
-export const SearchModal = styled(Box)(({ theme }) => ({
+export const LinkEllipsis = styled(Link)`
+  display: -webkit-box;
+  line-height: 1.75em;
+  text-decoration: none;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+`;
+
+export const SearchModalWrapper = styled(Box)(({ theme }) => ({
   position: "absolute",
-  top: "30vh",
+  top: theme.spacing(50),
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "600px",
@@ -49,8 +84,8 @@ export const SearchModal = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   [theme.breakpoints.down("sm")]: {
     height: `calc(100vh - ${theme.spacing(10)})`,
-    width: "100%",
-    top: `calc(50vh - ${theme.spacing(5)})`,
+    width: "100vw",
+    top: `calc(50vh - ${theme.spacing(5)} + 20px)`,
   },
 })) as typeof Box;
 
@@ -292,3 +327,15 @@ export const VideoModalFlexBox = styled(Box)(({ theme, className }) => {
   }
   return {};
 });
+
+export const HiddenScrollBox = styled(Box)`
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const ScrollProgressBar = styled(animated(Box))(({ theme }) => ({
+  height: "5px",
+  backgroundColor: theme.palette.primary.dark,
+}));
