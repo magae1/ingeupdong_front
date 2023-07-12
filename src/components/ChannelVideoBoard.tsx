@@ -21,7 +21,7 @@ import { animated, useSpring } from "@react-spring/web";
 import { IVideoWithRecordAt } from "../utils/interfaces";
 import { VideoTitleTypo, VideoCardButtonGroup } from "./styles";
 import { CurVideoForChartContext } from "./VideosWithChartBlock";
-import { pastAwayJs } from "../utils/dayjs";
+import { pastAwayJs, recordAtJs } from "../utils/dayjs";
 import VideoChart from "./VideoChart";
 import ModalBackGround from "./ModalBackGround";
 import VideoPlayerModal from "./VideoPlayerModal";
@@ -80,7 +80,8 @@ const ChannelVideoBoard = (props: { data: IVideoWithRecordAt }) => {
               />
               <CardContent sx={{ paddingX: theme.spacing(0.8) }}>
                 <Typography variant={"caption"} sx={{ color: grey[500] }}>
-                  #{pastAwayJs(record_at)} 인급동 진입
+                  #{isClicked ? recordAtJs(record_at) : pastAwayJs(record_at)}{" "}
+                  인급동 진입
                 </Typography>
                 <VideoTitleTypo>{title}</VideoTitleTypo>
               </CardContent>

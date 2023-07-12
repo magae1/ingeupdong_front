@@ -9,14 +9,13 @@ export const timeJs = (time: string) => {
 };
 
 export const pastAwayJs = (time: string) => {
-  const today = new Date();
-  const theDay = dayjs(time);
-  let diffFromToday = dayjs(today).diff(theDay, "d", true);
-  if (diffFromToday < 1 && today.getDate() === theDay.date()) return "오늘";
-  if (diffFromToday <= 1 && today.getDate() !== theDay.date()) return "어제";
-  return theDay.locale("ko").fromNow();
+  return dayjs(time).locale("ko").fromNow();
 };
 
 export const recordUrlJs = (recordAt: string) => {
   return dayjs(recordAt).format("YYYY-MM-DD-HH");
+};
+
+export const recordAtJs = (recordAt: string) => {
+  return dayjs(recordAt).locale("ko").format("YY' M월 D일");
 };
