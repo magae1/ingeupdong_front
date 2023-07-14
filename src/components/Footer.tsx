@@ -16,12 +16,13 @@ import {
   PersonSharp,
 } from "@mui/icons-material";
 
+import { BottomBox, FlexBox, InfoCard, InfoLabel } from "./styles";
 import { ReactComponent as LogoDockerIcon } from "../icons/logo-docker.svg";
-import { ReactComponent as LogoPythonIcon } from "../icons/logo-python.svg";
+import { ReactComponent as LogoDjangoIcon } from "../icons/django.svg";
 import { ReactComponent as LogoReactIcon } from "../icons/logo-react.svg";
 import { ReactComponent as LogoGoogleIcon } from "../icons/logo-google.svg";
 import { ReactComponent as LogoTistoryIcon } from "../icons/logo-tistory.svg";
-import { BottomBox, FlexBox, InfoCard, InfoLabel } from "./styles";
+import { ReactComponent as LogoNginxIcon } from "../icons/nginx.svg";
 
 const githubID: string = "magae1";
 const gmail: string = "jjilil8351@gmail.com";
@@ -41,16 +42,20 @@ const DevInfos = [
 
 const logos = [
   {
-    name: "Docker",
-    icon: <SvgIcon component={LogoDockerIcon} inheritViewBox />,
-  },
-  {
-    name: "Python",
-    icon: <SvgIcon component={LogoPythonIcon} inheritViewBox />,
+    name: "Django",
+    icon: <SvgIcon component={LogoDjangoIcon} inheritViewBox />,
   },
   {
     name: "React",
     icon: <SvgIcon component={LogoReactIcon} inheritViewBox />,
+  },
+  {
+    name: "Nginx",
+    icon: <SvgIcon component={LogoNginxIcon} inheritViewBox />,
+  },
+  {
+    name: "Docker",
+    icon: <SvgIcon component={LogoDockerIcon} inheritViewBox />,
   },
 ];
 
