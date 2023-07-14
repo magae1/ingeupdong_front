@@ -39,40 +39,6 @@ export const SearchResult = styled(({ ...props }: CardContentProps) => (
   },
 }));
 
-export const ChannelLinkSpan = styled(Box)(({ theme }) => {
-  let strong = theme.palette.mode === "light" ? 100 : 170;
-  return {
-    display: "inline-flex",
-    width: "fit-content",
-    borderRadius: theme.spacing(0.5),
-    backgroundColor: `rgba(${strong}, ${strong}, ${strong}, 0.2)`,
-    paddingRight: theme.spacing(1),
-    paddingLeft: theme.spacing(0.5),
-    height: theme.spacing(3),
-    alignItems: "center",
-    gap: theme.spacing(0.5),
-    color: theme.palette.text.secondary,
-    fontSize: "0.8rem",
-    "& a": {
-      color: "inherit",
-      marginTop: "5px",
-      height: theme.spacing(3),
-      "&:hover": {
-        color: theme.palette.text.primary,
-      },
-    },
-  };
-});
-
-export const LinkEllipsis = styled(Link)`
-  display: -webkit-box;
-  line-height: 1.75em;
-  text-decoration: none;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-`;
-
 export const SearchModalWrapper = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: theme.spacing(50),
@@ -231,15 +197,6 @@ export const ModalBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   borderRadius: theme.spacing(2),
 }));
-
-export const DefaultSearchIcon = styled(({ ...props }: IconButtonProps) => (
-  <IconButton {...props} type={"button"} aria-label={"검색"}>
-    <Search />
-  </IconButton>
-))`
-  padding: 8px;
-  color: inherit;
-`;
 
 export const RecordsTypo = styled(Typography)(({ theme }) => ({
   marginRight: theme.spacing(0.5),

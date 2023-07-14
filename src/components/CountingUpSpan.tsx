@@ -1,25 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { animated, config, useSpring } from "@react-spring/web";
 
 const CountingUpSpan = (props: { time: number; count: number; style?: {} }) => {
   const { time, count, style } = props;
-  const [curCount, setCurrentCount] = useState(0);
-  const timer = useRef<NodeJS.Timer>();
+  const { number } = useSpring({
+    from: { number: 0 },
+    number: count,
+    delay: time,
+    config: config.molasses,
+  });
 
-  useEffect(() => {
-    const interval = time / count;
-    const countingUp = () => {
-      setCurrentCount((prevState) => prevState + 1);
-    };
-    timer.current = setInterval(countingUp, interval);
-    return () => {
-      clearInterval(timer.current);
-    };
-  }, [timer]);
-
-  useEffect(() => {
-    if (curCount === count) clearInterval(timer.current);
-  }, [curCount, timer]);
-
-  return <span style={style}>{curCount}</span>;
+  return (
+    <animated.span style={style}>
+      {number.to((n) => n.toFixed(0))}
+    </animated.span>
+  );
 };
 export default CountingUpSpan;

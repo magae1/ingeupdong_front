@@ -72,7 +72,7 @@ const SearchingPlace = (props: { onCloseModal: () => void }) => {
       </header>
       <HiddenScrollBox
         ref={containerRef}
-        sx={{ marginTop: "1px", height: "calc(100% - 60px)" }}
+        sx={{ marginTop: "1px", height: "calc(100% - 65px)" }}
       >
         <Box sx={{ width: "100%", position: "sticky", top: "0" }}>
           {isLoading ? (
