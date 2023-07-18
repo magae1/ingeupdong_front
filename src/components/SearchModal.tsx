@@ -19,7 +19,7 @@ interface Props {
 const SearchModal = ({ open, setOpen }: Props) => {
   const theme = useTheme();
   const isMobileSize = useMediaQuery(theme.breakpoints.down("sm"));
-  const closeModal = useCallback(() => setOpen(false), []);
+
   return (
     <Modal open={open} disableRestoreFocus>
       <Fade in={open}>
@@ -31,13 +31,14 @@ const SearchModal = ({ open, setOpen }: Props) => {
               left: isMobileSize ? "calc(100% - 40px)" : "575px",
               borderRadius: "20px",
               backgroundColor: theme.palette.divider,
+              zIndex: "900",
             }}
           >
-            <IconButton onClick={closeModal}>
+            <IconButton onClick={() => setOpen(false)}>
               <Close />
             </IconButton>
           </Box>
-          <SearchingPlace onCloseModal={closeModal} />
+          <SearchingPlace />
         </SearchModalWrapper>
       </Fade>
     </Modal>

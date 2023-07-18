@@ -2,8 +2,10 @@ import React from "react";
 import { red } from "@mui/material/colors";
 import { YouTube } from "@mui/icons-material";
 import { Chip, useTheme } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const ChannelChip = (props: { channelName: string; channelId: number }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { channelName, channelId } = props;
   return (
@@ -18,7 +20,7 @@ const ChannelChip = (props: { channelName: string; channelId: number }) => {
       }}
       label={channelName}
       component={"a"}
-      href={`/channel/${channelId}`}
+      onClick={() => navigate(`/channel/${channelId}`)}
       icon={<YouTube style={{ color: red[600] }} />}
       clickable
     />

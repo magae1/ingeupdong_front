@@ -84,3 +84,8 @@ export interface ITotalCountWithCalendars {
   start_date: string;
   end_date: string;
 }
+
+export interface IScoreWithChannel {
+  score: number;
+  channel: IChannel;
+}

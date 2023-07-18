@@ -1,29 +1,40 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import _ from "underscore";
-import { Box, LinearProgress, Paper, Stack } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Box, Grid, LinearProgress, Paper, Stack } from "@mui/material";
+import { TrendingUpRounded, Search } from "@mui/icons-material";
 import { useScroll } from "@react-spring/web";
 import useSWRMutation from "swr/mutation";
+import useSWR from "swr";
 
 import {
   HiddenScrollBox,
+  InfoLabel,
   RankDiff,
   ScrollProgressBar,
   SearchInputBase,
 } from "./styles";
-import { IChannel } from "../utils/interfaces";
+import { IChannel, IScoreWithChannel } from "../utils/interfaces";
 import SearchResultBox from "./SearchResultBox";
 import { mainFetcher } from "../utils/fetchers";
+import ChannelChip from "./ChannelChip";
 
-const SearchingPlace = (props: { onCloseModal: () => void }) => {
+const SearchingPlace = () => {
   const containerRef = useRef<HTMLDivElement>(null!);
   const [value, setValue] = useState("");
   const [showRank, setShowRank] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const { scrollYProgress } = useScroll({ container: containerRef });
-  const { data, error, trigger, reset, isMutating } = useSWRMutation<
-    IChannel[]
-  >(value ? `/search?search=${value}` : null, mainFetcher);
+  const {
+    data: resultData,
+    error,
+    trigger,
+    reset,
+    isMutating,
+  } = useSWRMutation<IChannel[]>(
+    value ? `/search?search=${value}` : null,
+    mainFetcher
+  );
+  const { data: rankData } = useSWR<IScoreWithChannel[]>("/rank/", mainFetcher);
 
   const loadSearchResults = useMemo(
     () =>
@@ -85,21 +96,41 @@ const SearchingPlace = (props: { onCloseModal: () => void }) => {
             ></ScrollProgressBar>
           )}
         </Box>
-        <Stack spacing={1} mx={2} my={1}>
-          {data && data.length > 0 ? (
-            <RankDiff>{`총 ${data.length}개의 채널이 있습니다.`}</RankDiff>
+        <Box p={1}>
+          {showRank ? (
+            <>
+              <InfoLabel>
+                <TrendingUpRounded sx={{ mr: 0.5, verticalAlign: "middle" }} />
+                인기 급상승 채널
+              </InfoLabel>
+              <Grid container spacing={1} mx={2}>
+                {rankData?.map((value, index) => (
+                  <Grid item xs={12} sm={6}>
+                    <ChannelChip
+                      channelId={value.channel.id}
+                      channelName={value.channel.name}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </>
           ) : (
-            <RankDiff> 검색 결과가 없습니다.</RankDiff>
+            <Stack spacing={1}>
+              {resultData && resultData.length > 0 ? (
+                <RankDiff>{`총 ${resultData.length}개의 채널이 있습니다.`}</RankDiff>
+              ) : (
+                <RankDiff> 검색 결과가 없습니다.</RankDiff>
+              )}
+              {resultData?.map((v) => (
+                <SearchResultBox
+                  data={v}
+                  input={value}
+                  key={_.uniqueId("search-results-with-channel")}
+                />
+              ))}
+            </Stack>
           )}
-          {data?.map((v) => (
-            <SearchResultBox
-              data={v}
-              input={value}
-              onCloseModal={props.onCloseModal}
-              key={_.uniqueId("search-results-with-channel")}
-            />
-          ))}
-        </Stack>
+        </Box>
       </HiddenScrollBox>
     </Box>
   );

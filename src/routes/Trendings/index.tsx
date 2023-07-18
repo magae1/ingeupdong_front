@@ -37,6 +37,9 @@ const Trendings = () => {
     } else {
       prevRecordDate.current = recordDate;
     }
+    return () => {
+      setOpen(false);
+    };
   }, [recordDate]);
 
   return (

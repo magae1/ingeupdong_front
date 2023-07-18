@@ -9,23 +9,18 @@ import { useNavigate } from "react-router";
 
 interface props {
   data: IChannel;
-  input: string;
-  onCloseModal: () => void;
+  input?: string;
 }
-const SearchResultBox = ({ data, input, onCloseModal }: props) => {
+const SearchResultBox = ({ data, input }: props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { id, name, handle, created_at } = data;
+  if (typeof input === "undefined") input = "";
   const matches = match(name, input, { insideWords: true });
   const parts = parse(name, matches);
 
-  const onClickCard = useCallback(() => {
-    onCloseModal();
-    navigate(`/channel/${id}`);
-  }, []);
-
   return (
-    <SearchResult onClick={onClickCard}>
+    <SearchResult onClick={() => navigate(`/channel/${id}`)}>
       <Typography>
         {parts.map((p, i) => (
           <span

@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router";
-import { ScrollRestoration } from "react-router-dom";
+import { ScrollRestoration, useLocation } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -27,6 +27,7 @@ import SearchModal from "../../components/SearchModal";
 const Layout = () => {
   const colorMode = React.useContext(ColorModeContext);
   const theme = useTheme();
+  const location = useLocation();
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const ButtonStyle = useMemo(
     () => ({
@@ -38,6 +39,12 @@ const Layout = () => {
     }),
     []
   );
+
+  useEffect(() => {
+    return () => {
+      setOpenSearchModal(false);
+    };
+  }, [location]);
 
   return (
     <>
